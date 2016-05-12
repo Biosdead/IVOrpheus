@@ -1,11 +1,11 @@
 package IMATVI;
 
-import IVOrpheus2Final.Main;
-import IVOrpheus2Final.ThreadInteraction;
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Interface;
-import IVOrpheus2Final.ThreadDsd;
+import IMATVI.Main;
+import IMATVI.ThreadInteraction;
+import IMATVI.BtnListener;
+import IMATVI.Vis3D;
+import IMATVI.Interface;
+import IMATVI.ThreadDsd;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -1354,7 +1354,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 Interface.LimparPainel(Interface.desktopIFC);
                 Interface.BtnsDetails();
             try {
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
             } catch (GrammarException ex) {
                 Logger.getLogger(Vis3D.class.getName()).log(Level.SEVERE, null, ex);
             } catch (EngineStateError ex) {
@@ -2411,7 +2411,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         if (!FiltrarFormaCategorico.isEmpty() && !FiltrarFormaCategorico.equals(null) && FiltrarFormaCategorico != null) {
             for (int p = 0; p <= Interface.plot3D.getPlots().size() - 1; p++) {
                 if (FiltrarFormaCategorico.containsValue(MapaDeFormas.get(p))) {
-                    IVOrpheus2Final.Interface.plot3D.getPlot(p).setVisible(false);
+                    Interface.plot3D.getPlot(p).setVisible(false);
                     TotalFormaPorcento -= Interface.plot3D.getPlot(p).getData().length;
                     System.out.println("FOFOFOFFOFOFOFOFOFO " + p + "  " + (Interface.plot3D.getPlot(p).getData().length));
                     System.out.println("Total F " + TotalFormaPorcento);
@@ -2439,7 +2439,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         if (!FiltrarTamanhoCategorico.isEmpty() && !FiltrarTamanhoCategorico.equals(null) && FiltrarTamanhoCategorico != null) {
             for (int p = 0; p <= Interface.plot3D.getPlots().size() - 1; p++) {
                 if (FiltrarTamanhoCategorico.containsValue(MapaDeTamanhos.get(p))) {
-                    IVOrpheus2Final.Interface.plot3D.getPlot(p).setVisible(false);
+                    Interface.plot3D.getPlot(p).setVisible(false);
                     TotalTamanhoPorcento -= Interface.plot3D.getPlot(p).getData().length;
                     System.out.println("TATATAATATATATATATTAAT " + p + "  " + (Interface.plot3D.getPlot(p).getData().length));
                     System.out.println("Total T " + TotalTamanhoPorcento);
@@ -3116,7 +3116,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 Interface.LimparPainel(Interface.desktopIFC);
                 Interface.BtnsDetails();
             try {
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
             } catch (GrammarException ex) {
                 Logger.getLogger(Vis3D.class.getName()).log(Level.SEVERE, null, ex);
             } catch (EngineStateError ex) {
@@ -4173,7 +4173,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         if (!FiltrarFormaCategorico.isEmpty() && !FiltrarFormaCategorico.equals(null) && FiltrarFormaCategorico != null) {
             for (int p = 0; p <= Interface.plot2D.getPlots().size() - 1; p++) {
                 if (FiltrarFormaCategorico.containsValue(MapaDeFormas.get(p))) {
-                    IVOrpheus2Final.Interface.plot2D.getPlot(p).setVisible(false);
+                    Interface.plot2D.getPlot(p).setVisible(false);
                     TotalFormaPorcento -= Interface.plot2D.getPlot(p).getData().length;
                     System.out.println("FOFOFOFFOFOFOFOFOFO " + p + "  " + (Interface.plot2D.getPlot(p).getData().length));
                     System.out.println("Total F " + TotalFormaPorcento);
@@ -4216,7 +4216,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         if (!FiltrarTamanhoCategorico.isEmpty() && !FiltrarTamanhoCategorico.equals(null) && FiltrarTamanhoCategorico != null) {
             for (int p = 0; p <= Interface.plot2D.getPlots().size() - 1; p++) {
                 if (FiltrarTamanhoCategorico.containsValue(MapaDeTamanhos.get(p))) {
-                    IVOrpheus2Final.Interface.plot2D.getPlot(p).setVisible(false);
+                    Interface.plot2D.getPlot(p).setVisible(false);
                     TotalTamanhoPorcento -= Interface.plot2D.getPlot(p).getData().length;
                     System.out.println("TATATAATATATATATATTAAT " + p + "  " + (Interface.plot2D.getPlot(p).getData().length));
                     System.out.println("Total T " + TotalTamanhoPorcento);
@@ -6347,7 +6347,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             AllAxisChecked();
             Interface.LimparPainel(Interface.desktopInteragir);
             Interface.BtnsDetails();
-            Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+            Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
             (new ThreadDsd()).start();
         }
         //Checa quando está no zoom ou Mover ou Girar  

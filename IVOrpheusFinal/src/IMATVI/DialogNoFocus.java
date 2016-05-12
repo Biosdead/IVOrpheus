@@ -1,5 +1,5 @@
 package IMATVI;
-import IVOrpheus2Final.DialogNoFocus;
+import IMATVI.DialogNoFocus;
 import java.awt.Dimension;
 import javax.swing.*;
 

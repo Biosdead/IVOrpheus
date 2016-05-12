@@ -1,8 +1,8 @@
 package IMATVI;
 
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Interface;
-import IVOrpheus2Final.LegendPanelIV;
+import IMATVI.Vis3D;
+import IMATVI.Interface;
+import IMATVI.LegendPanelIV;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;

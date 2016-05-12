@@ -1,7 +1,8 @@
-package IMATVI;
+package IVOrpheus2Final;
 
-import IMATVI.Main;
-import IMATVI.Interface;
+import IVOrpheus2Final.*;
+import IVOrpheus2Final.Main;
+import IVOrpheus2Final.Interface;
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
 import java.io.IOException;

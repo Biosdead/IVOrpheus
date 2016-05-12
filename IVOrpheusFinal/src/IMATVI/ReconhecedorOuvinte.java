@@ -1,6 +1,6 @@
 package IMATVI;
 
-import IVOrpheus2Final.Tradutor;
+import IMATVI.Tradutor;
 import javax.speech.recognition.Result;
 import javax.speech.recognition.ResultAdapter;
 import javax.speech.recognition.ResultEvent;

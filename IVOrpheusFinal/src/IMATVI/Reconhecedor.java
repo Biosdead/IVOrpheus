@@ -1,7 +1,7 @@
 package IMATVI;
 
-import IVOrpheus2Final.Main;
-import IVOrpheus2Final.ReconhecedorOuvinte;
+import IMATVI.Main;
+import IMATVI.ReconhecedorOuvinte;
 import br.ufpa.laps.jlapsapi.recognizer.*;
 
 import java.io.BufferedWriter;

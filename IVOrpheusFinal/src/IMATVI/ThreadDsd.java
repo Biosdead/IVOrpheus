@@ -4,11 +4,11 @@
  */
 package IMATVI;
 
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Interface;
-import IVOrpheus2Final.ThreadDsd;
-import IVOrpheus2Final.LegendPanelIV;
+import IMATVI.BtnListener;
+import IMATVI.Vis3D;
+import IMATVI.Interface;
+import IMATVI.ThreadDsd;
+import IMATVI.LegendPanelIV;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;

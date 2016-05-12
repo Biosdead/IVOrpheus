@@ -38,6 +38,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import org.math.plot.Plot2DPanel; //
@@ -446,19 +447,21 @@ public class Interface extends JFrame {
         public static void SetPane(JFrame Frame) throws PropertyVetoException, GrammarException, EngineStateError, IOException{
 //        infoVisModule.IsPlot3D = true;    
         if (infoVisModule.IsPlot3D) {
+        	Frame.setContentPane(plot3D);
+            Frame.add(BorderLayout.NORTH, barra_menu);	
 //            LimparPainel(desktopIFC);
-                Frame.setContentPane(plot3D);
-                Frame.add(BorderLayout.NORTH, barra_menu);
+              //  Frame.setContentPane(plot3D);
+              //  Frame.add(BorderLayout.NORTH, barra_menu);
 //                menu_Voltar.doClick(10000);
 //                (new ThreadDsd()).start();   
 //                if (BtnListener.DetalhesFlag) {
-                if (Interface.menu_Detalhes.isSelected()) {
-                Interface.BtnsDetails();
-                Frame.setContentPane(((Interface)Frame).PainelIFC());
-//                Interface.painelIFC.setSelected(true);
-//                Interface.desktopIFC.setComponentZOrder(Interface.painelIFC,Interface.desktopIFC.getComponentCount()-2);
-                }else{
-//                Interface.BtnsIFC(); 
+             if (Interface.menu_Detalhes.isSelected()) {
+            Interface.BtnsDetails();
+            Frame.setContentPane(((Interface)Frame).PainelIFC());
+            }else{
+            SwingUtilities.invokeLater((new ThreadIFC()));
+                	//                Interface.BtnsIFC(); 
+//                Frame.setContentPane(((Interface)Frame).PainelIFC());
 //                Frame.setContentPane(((Interface)Frame).PainelIFC());
 //                Interface.painelIFC.setSelected(true);
 //                Interface.desktopIFC.setComponentZOrder(Interface.painelIFC,Interface.desktopIFC.getComponentCount()-2);

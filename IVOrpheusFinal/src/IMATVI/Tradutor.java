@@ -1,8 +1,8 @@
 package IMATVI;
-import IVOrpheus2Final.Main;
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Interface;
+import IMATVI.Main;
+import IMATVI.BtnListener;
+import IMATVI.Vis3D;
+import IMATVI.Interface;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;

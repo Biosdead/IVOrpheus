@@ -4,8 +4,8 @@
  */
 package IMATVI;
 
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.Interface;
+import IMATVI.BtnListener;
+import IMATVI.Interface;
 
 /**
  *

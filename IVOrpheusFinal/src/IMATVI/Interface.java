@@ -1,11 +1,11 @@
 package IMATVI;
-import IVOrpheus2Final.Main;
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.NoDragDesktopManager;
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.ThreadDsd;
-import IVOrpheus2Final.Interface;
-import static IVOrpheus2Final.Vis3D.IsPlot3D;
+import IMATVI.Main;
+import IMATVI.BtnListener;
+import IMATVI.NoDragDesktopManager;
+import IMATVI.Vis3D;
+import IMATVI.ThreadDsd;
+import IMATVI.Interface;
+import static IMATVI.Vis3D.IsPlot3D;
 import static org.math.array.StatisticSample.randomNormal;
 
 import java.awt.BorderLayout;
@@ -210,10 +210,10 @@ public class Interface extends JFrame {
               }*/
           BgBase = new ButtonGroup();
       	
-          bases = new JRadioButton[IVOrpheus2Final.Main.dir.GetFileNames().length];
-          for(int i = 0; i <= IVOrpheus2Final.Main.dir.GetFileNames().length-1;i++){
-  			bases[i] = new JRadioButton(i+1+"-"+IVOrpheus2Final.Main.dir.GetFileNames()[i]);
-  			bases[i].addActionListener(new IVOrpheus2Final.BtnListener());
+          bases = new JRadioButton[Main.dir.GetFileNames().length];
+          for(int i = 0; i <= Main.dir.GetFileNames().length-1;i++){
+  			bases[i] = new JRadioButton(i+1+"-"+Main.dir.GetFileNames()[i]);
+  			bases[i].addActionListener(new BtnListener());
   			BgBase.add(bases[i]);
           }
       

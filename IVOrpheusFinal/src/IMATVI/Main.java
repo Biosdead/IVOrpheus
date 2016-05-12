@@ -1,9 +1,5 @@
 package IMATVI;
 
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Reconhecedor;
-import IVOrpheus2Final.Interface;
-import IVOrpheus2Final.Directory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseMotionListener;

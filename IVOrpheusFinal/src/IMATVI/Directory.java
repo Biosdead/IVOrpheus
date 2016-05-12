@@ -1,6 +1,5 @@
 package IMATVI;
 
-import IVOrpheus2Final.Directory;
 import java.io.File;
 import java.util.Arrays;
 
@@ -8,8 +7,8 @@ public class Directory {  // Classe para ter acesso ao diretorio de bases e reto
 	public static File folder; 
 
 public Directory(){
-	//folder = new File(System.getProperty("user.home")+"/Documents/Bases");	
-	folder = new File(System.getProperty("user.home")+"/Documentos/Bases");
+	folder = new File(System.getProperty("user.home")+"/Documents/Bases");	
+//	folder = new File(System.getProperty("user.home")+"/Documentos/Bases");
 }
 public static void Directory(String path){
 	folder = new File(System.getProperty("user.home")+path);	

@@ -1,12 +1,12 @@
 package IMATVI;
-import IVOrpheus2Final.Main;
-import IVOrpheus2Final.ThreadInteraction;
-import IVOrpheus2Final.BtnListener;
-import IVOrpheus2Final.Vis3D;
-import IVOrpheus2Final.Reconhecedor;
-import IVOrpheus2Final.Interface;
-import IVOrpheus2Final.ThreadDsd;
-import IVOrpheus2Final.LegendPanelIV;
+import IMATVI.Main;
+import IMATVI.ThreadInteraction;
+import IMATVI.BtnListener;
+import IMATVI.Vis3D;
+import IMATVI.Reconhecedor;
+import IMATVI.Interface;
+import IMATVI.ThreadDsd;
+import IMATVI.LegendPanelIV;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
@@ -37,7 +37,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Window;
 
-import static IVOrpheus2Final.LegendPanelIV.MaisDeUmaVez;
+import static IMATVI.LegendPanelIV.MaisDeUmaVez;
 
 public class BtnListener implements ActionListener,MenuListener {
     
@@ -65,14 +65,14 @@ public class BtnListener implements ActionListener,MenuListener {
             	
             	 if (DetalhesFlag) {
                      Interface.BtnsDetails();
-                     Reconhecedor.GramDetalhes();
+//                     Reconhecedor.GramDetalhes();
                      FiltrarCategoricos = false;
                      
                      }else{
                      Interface.BtnsIFC();
-                     Reconhecedor.GramIFC();
+//                     Reconhecedor.GramIFC();
                      }
-          Main.Interface.setContentPane(((IVOrpheus2Final.Interface)Main.Interface).PainelIFC());
+          Main.Interface.setContentPane(((Interface)Main.Interface).PainelIFC());
           Interface.painelIFC.setSelected(true);
           Interface.desktopIFC.setComponentZOrder(Interface.painelIFC,Interface.desktopIFC.getComponentCount()-2);
             	} catch (GrammarException e) {
@@ -633,19 +633,19 @@ public class BtnListener implements ActionListener,MenuListener {
                     EixoZTradutor = false;
                     FiltrarCategoricos = false;
                     
-                	try {
-						Reconhecedor.GramIFC();
-					} catch (GrammarException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (EngineStateError e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//                	try {
+//						Reconhecedor.GramIFC();
+//					} catch (GrammarException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (EngineStateError e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
                     Interface.Voltar();
                     Interface.BtnsIFC();
                     try {
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelIFC());
+                        Main.Interface.setContentPane(((Interface) Inter).PainelIFC());
                         Interface.painelIFC.setSelected(true);
                         Interface.desktopIFC.setComponentZOrder(Interface.painelIFC, Interface.desktopIFC.getComponentCount() - 2);
                     } catch (GrammarException ex) {
@@ -755,7 +755,7 @@ public class BtnListener implements ActionListener,MenuListener {
                                          }else{
          				Interface.BtnsIFC();
                                          }
-         				 Main.Interface.setContentPane(((IVOrpheus2Final.Interface)Main.Interface).PainelIFC());
+         				 Main.Interface.setContentPane(((Interface)Main.Interface).PainelIFC());
                               Interface.painelIFC.setSelected(true);
                               Interface.desktopIFC.setComponentZOrder(Interface.painelIFC,Interface.desktopIFC.getComponentCount()-2);
          			} catch (GrammarException e) {
@@ -904,21 +904,21 @@ public class BtnListener implements ActionListener,MenuListener {
 		
 		}else if (acao.getSource() == Interface.menu_Detalhes) {
 			ConfigurarBool = true;
-                    				try {
-                    					Reconhecedor.GramAtributos();
-										//Reconhecedor.GramDetalhes();
-									} catch (GrammarException
-											| EngineStateError e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+//                    				try {
+//                    					Reconhecedor.GramAtributos();
+//										//Reconhecedor.GramDetalhes();
+//									} catch (GrammarException
+//											| EngineStateError e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
 //                           Interface.plot2D.plotLegend.note(infoVisModule.PontoSelecionado);
                     DetalhesFlag = Interface.menu_Detalhes.isSelected();
                     if (DetalhesFlag) {
                         Interface.LimparPainel(Interface.desktopCarregar);
                         try {
                             Interface.Detalhes(Main.att.GetFileAttributes());
-                            Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                            Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                         } catch (GrammarException ex) {
                             Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (EngineStateError ex) {
@@ -930,9 +930,9 @@ public class BtnListener implements ActionListener,MenuListener {
 
                 }else if(acao.getSource() == Interface.Interagir){
                 	try {
-        				Reconhecedor.GramInteragir();
+//        				Reconhecedor.GramInteragir();
                         Interface.BtnsI();
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
 
         			} catch (GrammarException e) {
                         // TODO Auto-generated catch block
@@ -946,18 +946,18 @@ public class BtnListener implements ActionListener,MenuListener {
                     }            
 		}
 		else if(acao.getSource() == Interface.Escala){
-			try {
-				Reconhecedor.GramEscala();
-			} catch (GrammarException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (EngineStateError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				Reconhecedor.GramEscala();
+//			} catch (GrammarException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (EngineStateError e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
             Interface.EscalaAtual.setText("Escala Atual: " + EscalaValor);
             Interface.BtnEscala();
-            Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelInteragir());
+            Main.Interface.setContentPane(((Interface) Main.Interface).PainelInteragir());
             try {
 				Interface.painelInteragir.setSelected(true);
 			} catch (PropertyVetoException e) {
@@ -991,7 +991,7 @@ public class BtnListener implements ActionListener,MenuListener {
                     GirarEI = false;
 
                     Interface.BtnMover();
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelInteragir());
+                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelInteragir());
                     try {
                         Interface.painelInteragir.setSelected(true);
                     } catch (PropertyVetoException ex) {
@@ -1032,9 +1032,9 @@ public class BtnListener implements ActionListener,MenuListener {
             GirarEI = true;
 
             try {
-				Reconhecedor.GramMG();
+//				Reconhecedor.GramMG();
                 Interface.BtnGirar();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelInteragir());
+                Main.Interface.setContentPane(((Interface) Inter).PainelInteragir());
                 Interface.painelInteragir.setSelected(true);
                 Interface.desktopInteragir.setComponentZOrder(Interface.painelInteragir, Interface.desktopInteragir.getComponentCount() - 2);
 //			} catch (GrammarException e) {
@@ -1045,9 +1045,9 @@ public class BtnListener implements ActionListener,MenuListener {
                 e.printStackTrace();
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (GrammarException e) {
+//            } catch (GrammarException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
             Main.Interface.setVisible(true);
 		}
@@ -1056,10 +1056,10 @@ public class BtnListener implements ActionListener,MenuListener {
             try {
                 ConfigurarBool = false;
                 FiltrarBool = true;
-				Reconhecedor.GramFC();
+//				Reconhecedor.GramFC();
                 Interface.painelCarregar.setTitle("Filtar Eixo");
                 Interface.BtnsF();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Inter).PainelIFC());
             } catch (GrammarException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1080,10 +1080,10 @@ public class BtnListener implements ActionListener,MenuListener {
 	                ConfigurarCor = true;
 	                ConfigurarForma = false;
 	                ConfigurarTamanho = false;
-					Reconhecedor.GramFC();
+//					Reconhecedor.GramFC();
 	                Interface.painelCarregar.setTitle("Configurar");
 	                Interface.BtnsC();
-	                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+	                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
 
 	            } catch (GrammarException e) {
 	                // TODO Auto-generated catch block
@@ -1099,7 +1099,7 @@ public class BtnListener implements ActionListener,MenuListener {
 		else if(acao.getSource() == Interface.Cor){
 			if (ConfigurarBool) {
                 try {
-				Reconhecedor.GramAtributos();
+//				Reconhecedor.GramAtributos();
                     ConfigurarCor = true;
                     ConfigurarForma = false;
                     ConfigurarTamanho = false;
@@ -1107,8 +1107,8 @@ public class BtnListener implements ActionListener,MenuListener {
                     FiltrarForma = false;
                     FiltrarTamanho = false;
                     Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Cor");
-                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelCarregar());
+                    Interface.BaseFC(Main.att.GetFileAttributes());
+                    Main.Interface.setContentPane(((Interface) Inter).PainelCarregar());
                 } catch (GrammarException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -1134,19 +1134,19 @@ public class BtnListener implements ActionListener,MenuListener {
                 Interface.FimFixoLbl.setVisible(false);
                 Interface.FimLbl.setVisible(false);
                 EixoIndice = 0;
-                            try {
-								Reconhecedor.GramFiltrar();
-							} catch (GrammarException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (EngineStateError e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+//                            try {
+//								Reconhecedor.GramFiltrar();
+//							} catch (GrammarException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							} catch (EngineStateError e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
                 Interface.LimparPainel(Interface.desktopCarregar);
                 try {
                     Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexCor));
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -1166,7 +1166,7 @@ public class BtnListener implements ActionListener,MenuListener {
 
 
                 try {
-				Reconhecedor.GramAtributos();
+//				Reconhecedor.GramAtributos();
                     ConfigurarForma = true;
                     ConfigurarCor = false;
                     ConfigurarTamanho = false;
@@ -1174,8 +1174,8 @@ public class BtnListener implements ActionListener,MenuListener {
                     FiltrarForma = false;
                     FiltrarTamanho = false;
                     Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Forma");
-                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelCarregar());
+                    Interface.BaseFC(Main.att.GetFileAttributes());
+                    Main.Interface.setContentPane(((Interface) Inter).PainelCarregar());
                 } catch (GrammarException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -1201,19 +1201,19 @@ public class BtnListener implements ActionListener,MenuListener {
                 Interface.FimFixoLbl.setVisible(false);
                 Interface.FimLbl.setVisible(false);
                 EixoIndice = 0;
-                            try {
-								Reconhecedor.GramFiltrar();
-							} catch (GrammarException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (EngineStateError e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+//                            try {
+//								Reconhecedor.GramFiltrar();
+//							} catch (GrammarException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							} catch (EngineStateError e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
                 Interface.LimparPainel(Interface.desktopCarregar);
                 try {
                     Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexForma));
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -1233,7 +1233,7 @@ public class BtnListener implements ActionListener,MenuListener {
 
 
 	                try {
-					Reconhecedor.GramAtributos();
+//					Reconhecedor.GramAtributos();
 	                    ConfigurarTamanho = true;
 	                    ConfigurarCor = false;
 	                    ConfigurarForma = false;
@@ -1241,8 +1241,8 @@ public class BtnListener implements ActionListener,MenuListener {
 	                    FiltrarForma = false;
 	                    FiltrarTamanho = false;
 	                    Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Tamanho");
-	                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-	                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelCarregar());
+	                    Interface.BaseFC(Main.att.GetFileAttributes());
+	                    Main.Interface.setContentPane(((Interface) Inter).PainelCarregar());
 	                } catch (GrammarException e) {
 	                    // TODO Auto-generated catch block
 	                    e.printStackTrace();
@@ -1269,19 +1269,19 @@ public class BtnListener implements ActionListener,MenuListener {
 	                Interface.FimFixoLbl.setVisible(false);
 	                Interface.FimLbl.setVisible(false);
 	                EixoIndice = 0;
-	                            try {
-									Reconhecedor.GramFiltrar();
-								} catch (GrammarException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (EngineStateError e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+//	                            try {
+//									Reconhecedor.GramFiltrar();
+//								} catch (GrammarException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								} catch (EngineStateError e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
 	                Interface.LimparPainel(Interface.desktopCarregar);
 	                try {
 	                    Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexTamanho));
-	                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+	                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
 	                } catch (FileNotFoundException ex) {
 	                    Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
 	                } catch (IOException ex) {
@@ -1308,10 +1308,10 @@ public class BtnListener implements ActionListener,MenuListener {
 //	                            if(Main.att.AttTypes().get(infoVisModule.indexX).equals("FLOAT")){
 	                    if (!Main.att.AttTypes().get(infoVisModule.indexX).equals("STRING") && Main.att.GetUniqueValues(infoVisModule.indexX).length >= 20) {
 
-	                        Reconhecedor.GramFiltrar();
+//	                        Reconhecedor.GramFiltrar();
 	                        Interface.LimparPainel(Interface.desktopCarregar);
 	                        Interface.BtnFiltrarDecimal();
-	                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+	                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
 	                        if (!Vis3D.FiltrarXNumerico.isEmpty()) {
 	                            Interface.InicioLbl.setText("" + Vis3D.FiltrarXNumerico.get(0));
 	                            Interface.FimLbl.setText("" + Vis3D.FiltrarXNumerico.get(1));
@@ -1336,10 +1336,10 @@ public class BtnListener implements ActionListener,MenuListener {
 	                        Interface.FimFixoLbl.setVisible(false);
 	                        Interface.FimLbl.setVisible(false);
 	                        EixoIndice = 0;
-	                            Reconhecedor.GramFiltrar();
+//	                            Reconhecedor.GramFiltrar();
 	                        Interface.LimparPainel(Interface.desktopCarregar);
 	                        Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexX));
-	                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+	                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
 	                    }
 	                } catch (FileNotFoundException ex) {
 	                    Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1358,15 +1358,15 @@ public class BtnListener implements ActionListener,MenuListener {
 	                EixoYTradutor = false;
 	                FiltrarBool = false;
 	                ConfigurarCor = false;
-				try {
-					Reconhecedor.GramAtributos();
-				} catch (GrammarException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (EngineStateError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					Reconhecedor.GramAtributos();
+//				} catch (GrammarException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (EngineStateError e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 	                Interface.LimparPainel(Interface.desktopCarregar);
 	                FiltrarCategoricos = true;
 	                Interface.InicioBtn.setVisible(false);
@@ -1377,8 +1377,8 @@ public class BtnListener implements ActionListener,MenuListener {
 	                Interface.FimLbl.setVisible(false);
 	                Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Eixo X");
 	                try {
-	                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-	                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+	                    Interface.BaseFC(Main.att.GetFileAttributes());
+	                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
 	                } catch (IOException ex) {
 	                    Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
 	                } catch (GrammarException ex) {
@@ -1403,10 +1403,10 @@ public class BtnListener implements ActionListener,MenuListener {
                     if (!Main.att.AttTypes().get(infoVisModule.indexY).equals("STRING") && Main.att.GetUniqueValues(infoVisModule.indexY).length >= 20) {
 
 
-                            Reconhecedor.GramFiltrar();
+//                            Reconhecedor.GramFiltrar();
                         Interface.LimparPainel(Interface.desktopCarregar);
                         Interface.BtnFiltrarDecimal();
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                         if (!Vis3D.FiltrarYNumerico.isEmpty()) {
                             Interface.InicioLbl.setText("" + Vis3D.FiltrarYNumerico.get(0));
                             Interface.FimLbl.setText("" + Vis3D.FiltrarYNumerico.get(1));
@@ -1431,9 +1431,9 @@ public class BtnListener implements ActionListener,MenuListener {
                         Interface.FimLbl.setVisible(false);
                         EixoIndice = 1;
                         Interface.LimparPainel(Interface.desktopCarregar);
-                           Reconhecedor.GramFiltrar();
+//                           Reconhecedor.GramFiltrar();
                         Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexY));
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                     }
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1459,11 +1459,11 @@ public class BtnListener implements ActionListener,MenuListener {
                 Interface.FimLbl.setVisible(false);
 
                 try {
-                      Reconhecedor.GramAtributos();
+//                      Reconhecedor.GramAtributos();
                     Interface.LimparPainel(Interface.desktopCarregar);
                     Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Eixo Y");
-                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                    Interface.BaseFC(Main.att.GetFileAttributes());
+                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                 } catch (GrammarException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (EngineStateError ex) {
@@ -1489,12 +1489,12 @@ public class BtnListener implements ActionListener,MenuListener {
                 try {
 //                            if(Main.att.AttTypes().get(infoVisModule.indexZ).equals("FLOAT")){
                     if (!Main.att.AttTypes().get(infoVisModule.indexZ).equals("STRING") && Main.att.GetUniqueValues(infoVisModule.indexZ).length >= 20) {
-                            Reconhecedor.GramFiltrar();
+//                            Reconhecedor.GramFiltrar();
 
                         Interface.LimparPainel(Interface.desktopCarregar);
                         Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Eixo Z");
                         Interface.BtnFiltrarDecimal();
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                         if (!Vis3D.FiltrarZNumerico.isEmpty()) {
                             Interface.InicioLbl.setText("" + Vis3D.FiltrarZNumerico.get(0));
                             Interface.FimLbl.setText("" + Vis3D.FiltrarZNumerico.get(1));
@@ -1518,9 +1518,9 @@ public class BtnListener implements ActionListener,MenuListener {
                         Interface.FimFixoLbl.setVisible(false);
                         Interface.FimLbl.setVisible(false);
                         EixoIndice = 2;
-                     Reconhecedor.GramFiltrar();
+//                     Reconhecedor.GramFiltrar();
                         Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexZ));
-                        Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                        Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                     }
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1546,10 +1546,10 @@ public class BtnListener implements ActionListener,MenuListener {
                 Interface.FimLbl.setVisible(false);
 
                 try {
-                            Reconhecedor.GramAtributos();
+//                            Reconhecedor.GramAtributos();
                     Interface.painelCarregar.setTitle(Interface.painelCarregar.getTitle() + " Eixo Z");
-                    IVOrpheus2Final.Interface.BaseFC(Main.att.GetFileAttributes());
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                    Interface.BaseFC(Main.att.GetFileAttributes());
+                    Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                 } catch (GrammarException ex) {
                     Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (EngineStateError ex) {
@@ -1565,7 +1565,7 @@ public class BtnListener implements ActionListener,MenuListener {
                 infoVisModule.BreadCrumbs1();
                 Interface.LimparPainel(Interface.desktopInteragir);
                 Interface.BtnsDetails();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
                 (new ThreadDsd()).start();
             } catch (IOException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1579,7 +1579,7 @@ public class BtnListener implements ActionListener,MenuListener {
                 infoVisModule.BreadCrumbs2();
                 Interface.LimparPainel(Interface.desktopInteragir);
                 Interface.BtnsDetails();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
                 (new ThreadDsd()).start();
             } catch (IOException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1593,7 +1593,7 @@ public class BtnListener implements ActionListener,MenuListener {
                 infoVisModule.BreadCrumbs3();
                 Interface.LimparPainel(Interface.desktopInteragir);
                 Interface.BtnsDetails();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
                 (new ThreadDsd()).start();
             } catch (IOException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1607,7 +1607,7 @@ public class BtnListener implements ActionListener,MenuListener {
                 infoVisModule.BreadCrumbs4();
                 Interface.LimparPainel(Interface.desktopInteragir);
                 Interface.BtnsDetails();
-                Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
+                Main.Interface.setContentPane(((Interface) Main.Interface).PainelIFC());
                 (new ThreadDsd()).start();
             } catch (IOException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -1714,7 +1714,7 @@ public class BtnListener implements ActionListener,MenuListener {
                Interface.BtnsBase();
                Interface.painelCarregar.setTitle("Carregar Base");
                try {
-                   Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
+                   Main.Interface.setContentPane(((Interface) Main.Interface).PainelCarregar());
                    Interface.painelCarregar.setSelected(true);
                    Interface.desktopCarregar.setComponentZOrder(Interface.painelCarregar, Interface.desktopCarregar.getComponentCount() - 2);
                } catch (GrammarException ex) {
@@ -1731,20 +1731,20 @@ public class BtnListener implements ActionListener,MenuListener {
            }
             
             if(acao.getSource() == Interface.menu_Voltar){
-                try {
-					Reconhecedor.GramIFC();
-				} catch (GrammarException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (EngineStateError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//                try {
+//					Reconhecedor.GramIFC();
+//				} catch (GrammarException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (EngineStateError e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
                 Interface.menu_Detalhes.setSelected(false);
                 Interface.Voltar();
                 Interface.BtnsIFC();
                 try {
-                    Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelIFC());
+                    Main.Interface.setContentPane(((Interface) Inter).PainelIFC());
                     Interface.painelIFC.setSelected(true);
                     Interface.desktopIFC.setComponentZOrder(Interface.painelIFC, Interface.desktopIFC.getComponentCount() - 2);
                 } catch (GrammarException ex) {
