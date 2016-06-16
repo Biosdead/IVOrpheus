@@ -1,12 +1,16 @@
 //Corrigir o bug do null
 //Corrigir o Bug das Cores
-//Fazer função para retornar os valores ao painel Legenda.
+//Fazer fun��o para retornar os valores ao painel Legenda.
 package IVOrpheus2Final;
 
+import static IVOrpheus2Final.Interface.plot2D;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,9 +29,13 @@ import javax.speech.recognition.GrammarException;
 import org.math.plot.Plot3DPanel;
 import org.math.plot.canvas.Plot3DCanvas;
 import org.math.plot.canvas.PlotCanvas;
+import org.math.plot.render.AWTDrawer;
 import org.math.plot.render.AWTDrawer2D;
 import org.math.plot.render.AWTDrawer3D;
+import org.math.plot.render.Projection2D;
+import org.math.plot.render.Projection3D;
 import org.math.plot.utils.Array;
+import org.math.plot.utils.FastMath;
 
 /**
  *
@@ -54,7 +62,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
     public static ArrayList<String> FiltrarZCategorico = new ArrayList<String>();
     public static ArrayList<String> SalvaAttDsd = new ArrayList<String>();
     public static ArrayList<Integer> SalvaAttDsdInt = new ArrayList<Integer>();
-    public static ArrayList<String> MatrizDSD = new ArrayList<String>(); // Matriz que guarda as listas que serão apresentadas no detalhes sobre demanda(DSD)
+    public static ArrayList<String> MatrizDSD = new ArrayList<String>(); // Matriz que guarda as listas que ser�o apresentadas no detalhes sobre demanda(DSD)
     //Booleans Eixos
     public static boolean eixoXSetado = false, eixoYSetado = false, eixoZSetado = false, firstTime = true, FiltroNumerico = false, eixoCorSetado = false, eixoFormaSetado = false, eixoTamanhoSetado = false, IsPlot3D = false;
     // Marcador proxAnt        
@@ -100,7 +108,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
     public static int[] QtdFormaPorcento;
     public static int[] QtdTamanhoPorcento;
     public static int[] QtdPontosPorcento;
-    public static int QtdPontosVisuais = 100; // Serve para identificar quantos pontos estão sendo visualmente despostos na visualização
+    public static int QtdPontosVisuais = 100; // Serve para identificar quantos pontos est�o sendo visualmente despostos na visualiza��o
     //Indice dos Eixos
     public static int indexX = -1, indexY = -1, indexZ = -1, indexCor = -1, indexForma = -1, indexTamanho = -1;
     public static boolean Detalhes = false;
@@ -153,37 +161,37 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        NomeDasCores[5] = "Magenta";
 //        NomeDasCores[6] = "Amarelo";
 //        NomeDasCores[7] = "Rosa";
-//      Método alternativo para representar as Cores
-        NomeDasCores[0] = "█";
-        NomeDasCores[1] = "█";
-        NomeDasCores[2] = "█";
-        NomeDasCores[3] = "█";
-        NomeDasCores[4] = "█";
-        NomeDasCores[5] = "█";
-        NomeDasCores[6] = "█";
-        NomeDasCores[7] = "█";
+//      M�todo alternativo para representar as Cores
+        NomeDasCores[0] = "?";
+        NomeDasCores[1] = "?";
+        NomeDasCores[2] = "?";
+        NomeDasCores[3] = "?";
+        NomeDasCores[4] = "?";
+        NomeDasCores[5] = "?";
+        NomeDasCores[6] = "?";
+        NomeDasCores[7] = "?";
 
 
 
         //Nome Dos tamanhos para os Filtros
 //        NomeDosTamanhos[0] = "Pequeno";
-//        NomeDosTamanhos[1] = "Médio";
+//        NomeDosTamanhos[1] = "M�dio";
 //        NomeDosTamanhos[2] = "Grande";
-        //Método alternativo para representar os Tamanhos no filtro de Tamanhos.
-        NomeDosTamanhos[0] = "◽"; 
-        NomeDosTamanhos[1] = "◻";
-        NomeDosTamanhos[2] = "▢";
+        //M�todo alternativo para representar os Tamanhos no filtro de Tamanhos.
+        NomeDosTamanhos[0] = "?"; 
+        NomeDosTamanhos[1] = "?";
+        NomeDosTamanhos[2] = "?";
         
         //Nome Das formas para os Filtros
 //        NomeDasFormas[0] = "Ponto";
 //        NomeDasFormas[1] = "Cruz/Xis";
 //        NomeDasFormas[2] = "Triangulo";
 //        NomeDasFormas[3] = "Quadrado";
-        //Método alternativo para representar As Formas no filtro de formas.
-        NomeDasFormas[0] = "◯";
+        //M�todo alternativo para representar As Formas no filtro de formas.
+        NomeDasFormas[0] = "?";
         NomeDasFormas[1] = "X";
-        NomeDasFormas[2] = "△";
-        NomeDasFormas[3] = "▢";
+        NomeDasFormas[2] = "?";
+        NomeDasFormas[3] = "?";
         
     }
 
@@ -221,7 +229,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 
         //Nome Dos tamanhos para os Filtros
         NomeDosTamanhos[0] = "Pequeno";
-        NomeDosTamanhos[1] = "Médio";
+        NomeDosTamanhos[1] = "M�dio";
         NomeDosTamanhos[2] = "Grande";
 
         //Nome Das formas para os Filtros
@@ -327,7 +335,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         MapaDeFormas.clear();
 
 
-        System.out.println("Novo filtro Começo 5");
+        System.out.println("Novo filtro Come�o 5");
 
         if (FiltrarXCategorico.isEmpty()) {
 
@@ -515,7 +523,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                         while (true) {
 
                             if ((xl1.contains(xl1.get(i))) && (xl1.get(i) != null) && (!xl1.get(i).equals("null"))) {
-                                if ((Double.parseDouble(xl1.get(i).toString()) <= Double.parseDouble(FiltrarXNumerico.get(0))) || (Double.parseDouble(xl1.get(i).toString()) >= Double.parseDouble(FiltrarXNumerico.get(1)))) { //Bug solucionado, porém não otimizado(Todas as vezes que allplot é chamado )
+                                if ((Double.parseDouble(xl1.get(i).toString()) <= Double.parseDouble(FiltrarXNumerico.get(0))) || (Double.parseDouble(xl1.get(i).toString()) >= Double.parseDouble(FiltrarXNumerico.get(1)))) { //Bug solucionado, por�m n�o otimizado(Todas as vezes que allplot � chamado )
 
                                     zl1.remove(xl1.indexOf(xl1.get(i)));
                                     yl1.remove(xl1.indexOf(xl1.get(i)));
@@ -1268,9 +1276,9 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             System.out.println("CUU " + coresUnicas);
 
 
-//            //Ignorando os pontos oclusos da aplicação,  
+//            //Ignorando os pontos oclusos da aplica��o,  
 //            List<String> StrList = new ArrayList<>();
-//            int contador = xl1.size() - 1; // -1 é referente ao nulo no final 
+//            int contador = xl1.size() - 1; // -1 � referente ao nulo no final 
 //            if (xl1.size() < 30) {
 //                for (int i = 0; i < xl1.size() - 1; i++) {
 //                    String str1 = xl1.get(i) + yl1.get(i) + zl1.get(i);
@@ -1296,10 +1304,10 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         
         }
             
-                //Ignorando os pontos oclusos da aplicação,  
+                //Ignorando os pontos oclusos da aplica��o,  
         List<String> StrList = new ArrayList<>();
         List<String> AuxMatrizDsd = new ArrayList<>();
-        int contador = xl1.size() - 1; // -1 é referente ao nulo no final 
+        int contador = xl1.size() - 1; // -1 � referente ao nulo no final 
         if (!xl1Coord.isEmpty()) {
             xl1Coord.clear();
             yl1Coord.clear();
@@ -1335,13 +1343,13 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             }
 
         }
-        //Fim da remoção dos pontos oclusos
+        //Fim da remo��o dos pontos oclusos
         
         
          QtdPontosVisuais = contador;
         
-        //Inicio Método alternativo
-        if (Interface.menu_Detalhes.isSelected() && QtdPontosVisuais <= 10) { // Método alternativo Utilizado para chamar o Painel Detalhes com os números de 0..9 e a desenhar simultanêamente os números na tela através da thread Java
+        //Inicio M�todo alternativo
+        if (Interface.menu_Detalhes.isSelected() && QtdPontosVisuais <= 10) { // M�todo alternativo Utilizado para chamar o Painel Detalhes com os n�meros de 0..9 e a desenhar simultan�amente os n�meros na tela atrav�s da thread Java
                 Interface.LimparPainel(Interface.desktopIFC);
                 Interface.BtnsDetails();
             try {
@@ -1353,7 +1361,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             }
             System.out.println("Controle 0");
         }
-        //Fim Método alternativo
+        //Fim M�todo alternativo
         
         
         
@@ -1435,7 +1443,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             for (int j = 0; j < xl1.size(); j++) {
                 if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null) { //ambos os meios para tirar o null estao gerando um error
                     XYZ[j][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                    XYZ[j][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                    XYZ[j][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                     XYZ[j][2] = yl1.get(j);
                     
                 }
@@ -1449,7 +1457,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             Interface.plot3D.addPlot(p[0]);
 //    p[0] = new ScatterPlot("Base de Carros", Color.BLUE , 1, 4, Interface.plot3D.mapData(XYZ)); 
 //    Interface.plot3D.addPlot(p[0]);       
-            System.out.println(" Esse é o fim " + IsPlot3D);
+            System.out.println(" Esse � o fim " + IsPlot3D);
         } else if (indexCor != -1 && indexForma == -1 && indexTamanho == -1) {
 //      Fim do plotador Comum XYZ
 
@@ -1488,7 +1496,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 double porcentagem = ((double) QtdCorPorcento[i] * 100) / (double) (TotalCorPorcento - 1);
                 
                 if (ValorCor < 8) {
-                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[i], 1, 4, Interface.plot3D.mapData(XYZ));
+                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[i], 1, 4, Interface.plot3D.mapData(XYZ));
                     MapaDeCores.put(i, ValorCor);
                 } else {
                     ValorCor = 0;
@@ -1530,7 +1538,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 for (int j = 0; j <= tamanhos.size() - 1; j++) {
                     if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && tamanhos.get(j) != null && tamanhos.get(j).equals(tamanhosUnicos.get(i))) { //ambos os meios para tirar o null estao gerando um error
                         XYZ[mark][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                        XYZ[mark][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                        XYZ[mark][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                         XYZ[mark][2] = yl1.get(j);
                         mark++;
                     }
@@ -1588,7 +1596,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 for (int j = 0; j <= formas.size() - 1; j++) {
                     if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && formas.get(j) != null && formas.get(j).equals(formasUnicas.get(i))) { //ambos os meios para tirar o null estao gerando um error
                         XYZ[mark][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                        XYZ[mark][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                        XYZ[mark][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                         XYZ[mark][2] = yl1.get(j);
                         mark++;
                     }
@@ -1674,7 +1682,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     for (int j = 0; j <= xl1.size() - 1; j++) {
                         if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && formas.get(j).equals(formasUnicas.get(f)) && tamanhos.get(j).equals(tamanhosUnicos.get(t))) { //ambos os meios para tirar o null estao gerando um error
                             XYZ[mark1][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                             XYZ[mark1][2] = yl1.get(j);
                             mark1++;
                         }
@@ -1885,7 +1893,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     for (int j = 0; j <= xl1.size() - 1; j++) {
                         if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && cores.get(j) != null && tamanhos.get(j).equals(tamanhosUnicos.get(f)) && cores.get(j).equals(coresUnicas.get(i))) { //ambos os meios para tirar o null estao gerando um error
                             XYZ[mark1][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                             XYZ[mark1][2] = yl1.get(j);
                             mark1++;
                         }
@@ -1992,7 +2000,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size();  
                 double porcentagem = ((double) MapaDeObjetos.get(mdo).length * 100) / (double) (xl1.size() - 1);
                 Interface.plot3D.changePlotData(mdo, Interface.plot3D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 
@@ -2042,7 +2050,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     for (int j = 0; j <= xl1.size() - 1; j++) {
                         if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && cores.get(j) != null && formas.get(j).equals(formasUnicas.get(f)) && cores.get(j).equals(coresUnicas.get(i))) { //ambos os meios para tirar o null estao gerando um error
                             XYZ[mark1][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                            XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                             XYZ[mark1][2] = yl1.get(j);
                             mark1++;
                         }
@@ -2118,7 +2126,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size(); 
                 double porcentagem = ((double) MapaDeObjetos.get(mdo).length * 100) / (double) (xl1.size() - 1);
                 Interface.plot3D.changePlotData(mdo, Interface.plot3D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 //     SetaExtremidadesDosEixos();
@@ -2170,7 +2178,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                         for (int j = 0; j < xl1.size() - 1; j++) {
                             if (xl1.get(j) != null && yl1.get(j) != null && zl1.get(j) != null && cores.get(j) != null && formas.get(j).equals(formasUnicas.get(f)) && tamanhos.get(j).equals(tamanhosUnicos.get(t)) && cores.get(j).equals(coresUnicas.get(i))) { //ambos os meios para tirar o null estao gerando um error
                                 XYZ[mark1][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
-                                XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+                                XYZ[mark1][1] = zl1.get(j); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
                                 XYZ[mark1][2] = yl1.get(j);
                                 mark1++;
                             }
@@ -2386,7 +2394,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size();  
                 double porcentagem = ((double) MapaDeObjetos.get(mdo).length * 100) / (double) (xl1.size() - 1);
                 Interface.plot3D.changePlotData(mdo, Interface.plot3D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot3D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 //    SetaExtremidadesDosEixos();
@@ -2663,7 +2671,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         MapaDeTamanhos.clear();
         MapaDeFormas.clear();
 
-        System.out.println("Novo filtro Começo 5");
+        System.out.println("Novo filtro Come�o 5");
 
         if (FiltrarXCategorico.isEmpty()) {
 
@@ -2789,7 +2797,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                         while (true) {
 
                             if ((xl1.contains(xl1.get(i))) && (xl1.get(i) != null) && (!xl1.get(i).equals("null"))) {
-                                if ((Double.parseDouble(xl1.get(i).toString()) <= Double.parseDouble(FiltrarXNumerico.get(0))) || (Double.parseDouble(xl1.get(i).toString()) >= Double.parseDouble(FiltrarXNumerico.get(1)))) { //Bug solucionado, porém não otimizado(Todas as vezes que allplot é chamado )
+                                if ((Double.parseDouble(xl1.get(i).toString()) <= Double.parseDouble(FiltrarXNumerico.get(0))) || (Double.parseDouble(xl1.get(i).toString()) >= Double.parseDouble(FiltrarXNumerico.get(1)))) { //Bug solucionado, por�m n�o otimizado(Todas as vezes que allplot � chamado )
                                     yl1.remove(xl1.indexOf(xl1.get(i)));
                                     cores.remove(xl1.indexOf(xl1.get(i)));
                                     formas.remove(xl1.indexOf(xl1.get(i)));
@@ -3057,10 +3065,10 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         }
 
 
-        //Ignorando os pontos oclusos da aplicação,  
+        //Ignorando os pontos oclusos da aplica��o,  
         List<String> StrList = new ArrayList<>();
         List<String> AuxMatrizDsd = new ArrayList<>();
-        int contador = xl1.size() - 1; // -1 é referente ao nulo no final 
+        int contador = xl1.size() - 1; // -1 � referente ao nulo no final 
         if (!xl1Coord.isEmpty()) {
             xl1Coord.clear();
             yl1Coord.clear();
@@ -3095,15 +3103,15 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             }
 
         }
-        //Fim da remoção dos pontos oclusos
+        //Fim da remo��o dos pontos oclusos
         
         System.out.println("Contador " + contador);
         System.out.println("XCoord " + coresUnicas.size());
         System.out.println("YCoord " + formasUnicas.size());
         QtdPontosVisuais = contador;
 
-        //Inicio Método alternativo
-        if (Interface.menu_Detalhes.isSelected() && QtdPontosVisuais <= 10) { // Método alternativo Utilizado para chamar o Painel Detalhes com os números de 0..9 e a desenhar simultanêamente os números na tela através da thread Java
+        //Inicio M�todo alternativo
+        if (Interface.menu_Detalhes.isSelected() && QtdPontosVisuais <= 10) { // M�todo alternativo Utilizado para chamar o Painel Detalhes com os n�meros de 0..9 e a desenhar simultan�amente os n�meros na tela atrav�s da thread Java
                 Interface.LimparPainel(Interface.desktopIFC);
                 Interface.BtnsDetails();
             try {
@@ -3114,7 +3122,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 Logger.getLogger(Vis3D.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        //Fim Método alternativo
+        //Fim M�todo alternativo
 
 
         List<Integer> CoresUnicasIndex = new ArrayList<>();
@@ -3179,8 +3187,8 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 if (xl1.get(j) != null && yl1.get(j) != null) { //ambos os meios para tirar o null estao gerando um error
                     XYZ[j][0] = xl1.get(j);  //Inserir o -1 para ver se tira o null
                     XYZ[j][1] = yl1.get(j);  //Inserir o -1 para ver se tira o null
-//    	XYZ[j][1] = yl1.get(j)+"\u200f"; //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
-//    	XYZ[j][1] = Double.parseDouble(yl1.get(j)); //\u200f o obejto XYZ não aceita !String então para converter é utilizado o \u200f que é o caractere vázio que concatenado com o valor !String é plotado
+//    	XYZ[j][1] = yl1.get(j)+"\u200f"; //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
+//    	XYZ[j][1] = Double.parseDouble(yl1.get(j)); //\u200f o obejto XYZ n�o aceita !String ent�o para converter � utilizado o \u200f que � o caractere v�zio que concatenado com o valor !String � plotado
 
                 }
             }
@@ -3232,13 +3240,13 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //    int porcentagem = (QtdCorPorcento[i]*100)/TotalPorcento;
                 double porcentagem = ((double) (QtdCorPorcento[i] * 100)) / (double) (TotalCorPorcento - 1);
                 if (ValorCor < 8) {
-//           p[i] = new ScatterPlot(coresUnicas.get(i).toString()+" ➞ "+ porcentagem+"%",ModeloCores[i] , 1, 4, Interface.plot2D.mapData(XYZ)); 
-                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[CoresUnicasIndex.get(i)], 1, 4, Interface.plot2D.mapData(XYZ));
+//           p[i] = new ScatterPlot(coresUnicas.get(i).toString()+" ? "+ porcentagem+"%",ModeloCores[i] , 1, 4, Interface.plot2D.mapData(XYZ)); 
+                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[CoresUnicasIndex.get(i)], 1, 4, Interface.plot2D.mapData(XYZ));
                     MapaDeCores.put(i, ValorCor);
 //           MapaDeCores.put(i,CoresUnicasIndex.get(i));
                 } else {
                     ValorCor = 0;
-                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + QtdCorPorcento[i] + "%", ModeloCores[i], 1, 4, Interface.plot2D.mapData(XYZ));
+                    p[i] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + QtdCorPorcento[i] + "%", ModeloCores[i], 1, 4, Interface.plot2D.mapData(XYZ));
                     MapaDeCores.put(i, ValorCor);
                 }
 
@@ -3648,7 +3656,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     if (mark != 0) {
 //                        ValorCor = CoresUnicasIndex.get(i);
 //                        ValorTamanho = TamanhosUnicosIndex.get(f);
-                        ValorCor = i; // Estava Funcionado com esta linha e a próxima descomentada
+                        ValorCor = i; // Estava Funcionado com esta linha e a pr�xima descomentada
                         ValorTamanho = f;
 //           QtdPontosPorcento[i] += mark1;
                         QtdPontosPorcento[i] += XYZ.length;
@@ -3659,19 +3667,19 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 
                             if (ValorTamanho < 3) {
                                 if (ValorTamanho == 0) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
                                     plotar++;
                                 } else if (ValorTamanho == 1) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 8, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 8, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
                                     plotar++;
                                 } else if (ValorTamanho == 2) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 16, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 16, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
@@ -3679,7 +3687,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                                 }
                             } else {
                                 ValorTamanho = 0;
-                                p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                 MapaDeCores.put(mdc, ValorCor);
                                 MapaDeTamanhos.put(mdt, ValorTamanho);
                                 MapaDeObjetos.put(plotar, XYZ);
@@ -3689,19 +3697,19 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             ValorCor = 0;
                             if (ValorTamanho < 3) {
                                 if (ValorTamanho == 0) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
                                     plotar++;
                                 } else if (ValorTamanho == 1) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 8, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 8, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
                                     plotar++;
                                 } else if (ValorTamanho == 2) {
-                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 16, Interface.plot2D.mapData(XYZ));
+                                    p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 16, Interface.plot2D.mapData(XYZ));
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeTamanhos.put(mdt, ValorTamanho);
                                     MapaDeObjetos.put(plotar, XYZ);
@@ -3709,7 +3717,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                                 }
                             } else {
                                 ValorTamanho = 0;
-                                p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                p[i] = new ScatterPlot(coresUnicas.get(ValorCor).toString() + " + " + NomeDosTamanhos[ValorTamanho] + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                 MapaDeCores.put(mdc, ValorCor);
                                 MapaDeTamanhos.put(mdt, ValorTamanho);
                                 MapaDeObjetos.put(plotar, XYZ);
@@ -3745,7 +3753,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size();  
                 double porcentagem = ((double) (MapaDeObjetos.get(mdo).length * 100)) / (double) (xl1.size() - 1);
                 Interface.plot2D.changePlotData(mdo, Interface.plot2D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 
@@ -3812,7 +3820,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //                        QtdCorPorcento[ValorCor] += mark1;
 ////       int porcentagem = (QtdCorPorcento[i]*100)/TotalPorcento;
                         double porcentagem = ((double) QtdCorPorcento[i] * 100) / (double) (TotalCorPorcento - 1);
-                        ValorForma = f; //  Estava Funcionando que este código nao comentado
+                        ValorForma = f; //  Estava Funcionando que este c�digo nao comentado
 //                        ValorForma = FormasUnicasIndex.get(f);
 //                        ValorCor = CoresUnicasIndex.get(i);
                         if (ValorCor < 8) {
@@ -3820,26 +3828,26 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             if (ValorForma < 4) {
 
                                 if (ValorForma == 0) {
-                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     p[plotar].setDotPattern(DOT_PATTERN);
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeFormas.put(mdf, ValorForma);
                                     MapaDeObjetos.put(plotar, XYZ);
 
                                 } else if (ValorForma == 1) {
-                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     p[plotar].setDotPattern(CROSS_PATTERN);
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeFormas.put(mdf, ValorForma);
                                     MapaDeObjetos.put(plotar, XYZ);
                                 } else if (ValorForma == 2) {
-                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     p[plotar].setDotPattern(PTRIANGLE_PATTERN);
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeFormas.put(mdf, ValorForma);
                                     MapaDeObjetos.put(plotar, XYZ);
                                 } else if (ValorForma == 3) {
-                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                    p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                     p[plotar].setDotPattern(PSQUARE_PATTERN);
                                     MapaDeCores.put(mdc, ValorCor);
                                     MapaDeFormas.put(mdf, ValorForma);
@@ -3847,7 +3855,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                                 }
                             } else {
                                 ValorForma = 0;
-                                p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
+                                p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ));
                                 p[plotar].setDotPattern(DOT_PATTERN);
                                 MapaDeCores.put(mdc, ValorCor);
                                 MapaDeFormas.put(mdf, ValorForma);
@@ -3855,7 +3863,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             }
                         } else {
                             ValorCor = 0;
-                            p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ)); //?
+                            p[plotar] = new ScatterPlot(coresUnicas.get(i).toString() + " ? " + new DecimalFormat("##.##").format(porcentagem) + "%", ModeloCores[ValorCor], 1, 4, Interface.plot2D.mapData(XYZ)); //?
                             MapaDeCores.put(mdc, ValorCor);
                             MapaDeFormas.put(mdf, ValorForma);
                             MapaDeObjetos.put(plotar, XYZ);
@@ -3868,7 +3876,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     }
 
 //                    QtdFormaPorcento[ValorForma] += mark1;
-                    ValorCor = i; // Estava Funcionando que este código nao comentado
+                    ValorCor = i; // Estava Funcionando que este c�digo nao comentado
 //                    ValorCor = CoresUnicasIndex.get(i);
 
                 }
@@ -3880,7 +3888,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size(); 
                 double porcentagem = ((double) MapaDeObjetos.get(mdo).length * 100) / (double) (xl1.size() - 1);
                 Interface.plot2D.changePlotData(mdo, Interface.plot2D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 //     SetaExtremidadesDosEixos();
@@ -3944,8 +3952,8 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                         if (mark != 0) {
                             QtdCorPorcento[ValorCor] += mark1;
                             int porcentagem = (QtdCorPorcento[i] * 100) / TotalCorPorcento;
-                            ValorForma = f;    // Estava Funcionando que este código nao comentado
-                            ValorTamanho = t;  // Estava Funcionando que este código nao comentado
+                            ValorForma = f;    // Estava Funcionando que este c�digo nao comentado
+                            ValorTamanho = t;  // Estava Funcionando que este c�digo nao comentado
 //                            ValorForma = FormasUnicasIndex.get(f);
 //                            ValorTamanho = TamanhosUnicosIndex.get(t);
 
@@ -4140,7 +4148,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                         QtdFormaPorcento[ValorForma] += mark1;
                         QtdTamanhoPorcento[ValorTamanho] += mark1;
 
-                        ValorCor = i; // Estava Funcionando que este código nao comentado
+                        ValorCor = i; // Estava Funcionando que este c�digo nao comentado
 //                        ValorCor = CoresUnicasIndex.get(i);
                     }
                 }
@@ -4150,7 +4158,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //        int porcentagem = (MapaDeObjetos.get(mdo).length*100)/xl1.size();  
                 double porcentagem = ((double) MapaDeObjetos.get(mdo).length * 100) / (double) (xl1.size() - 1);
                 Interface.plot2D.changePlotData(mdo, Interface.plot2D.mapData(MapaDeObjetos.get(mdo)));
-                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ➞ " + new DecimalFormat("##.##").format(porcentagem) + " % ");
+                Interface.plot2D.changePlotName(mdo, coresUnicas.get(MapaDeCores.get(mdo)).toString() + " + " + NomeDasFormas[MapaDeFormas.get(mdo)] + " + " + NomeDosTamanhos[MapaDeTamanhos.get(mdo)] + " ? " + new DecimalFormat("##.##").format(porcentagem) + " % ");
                 System.out.println("IIIIIIIIIII " + mdo + " XYZZZZZZZZZZZZ " + MapaDeObjetos.get(mdo).length + " xxxxx " + xl1.size());
             }
 //    SetaExtremidadesDosEixos();
@@ -4917,7 +4925,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -5544,7 +5552,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 draw.drawPolygon(pc8);
 
                 double[] label1 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; //Calcula o limite inicial de cada quadrante + seu limite final dividido por 2 para assim chegar na coordenada correta.
-                double[] label2 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; // sz e sy estão em lugares trocados devido sua ordem também está trocada na hora de colocar os pontos no objeto XYZ(devido a limitações do Jmathplot o y e o z são trocados.
+                double[] label2 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; // sz e sy est�o em lugares trocados devido sua ordem tamb�m est� trocada na hora de colocar os pontos no objeto XYZ(devido a limita��es do Jmathplot o y e o z s�o trocados.
                 double[] label3 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};// O Y e o Z controlam respectivamente altura e profundidade e o X a largura.
                 double[] label4 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};
                 double[] label5 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (sz + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2};
@@ -5696,8 +5704,8 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 //    pc4[3][1] = 0;
 
 
-                double[] label1 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; //Versão aprimorada do centralizador se essa não funcionar voltar pra anterior 
-                double[] label2 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2};// Tirando o comentário da declaracao das variaveis labels das atribuiçoes das mesmas
+                double[] label1 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; //Vers�o aprimorada do centralizador se essa n�o funcionar voltar pra anterior 
+                double[] label2 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2};// Tirando o coment�rio da declaracao das variaveis labels das atribui�oes das mesmas
                 double[] label3 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};
                 double[] label4 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};
 
@@ -6052,7 +6060,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             parOrdenado[1] = Double.parseDouble(Zlist.get(number).toString());
                             parOrdenado[2] = Double.parseDouble(Ylist.get(number).toString());
                             parOrdenadoX[0] = Double.parseDouble(Xlist.get(number).toString());
-                            parOrdenadoX[1] = MinZ; // pegar o valor mínimo do eixo Z, não pode ser o zero pois em muitos casos os valores começam diferentes de zero.
+                            parOrdenadoX[1] = MinZ; // pegar o valor m�nimo do eixo Z, n�o pode ser o zero pois em muitos casos os valores come�am diferentes de zero.
                             parOrdenadoX[2] = Double.parseDouble(Ylist.get(number).toString());
                             parOrdenadoY[0] = Double.parseDouble(Xlist.get(number).toString());
                             parOrdenadoY[1] = Double.parseDouble(Zlist.get(number).toString());
@@ -6067,7 +6075,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             draw.drawText("" + yl1Coord.get(number), parOrdenadoY);
                             draw.setTextAngle(0);
                             for (int k = 0; k < SalvaAttDsdInt.size(); k++) {
-                            contador = k * ((parOrdenado[2]/100)*10); // Pegar a escala correta do XY // O Ultimo valor é a porcentagem que vai ser aplicada no espaço
+                            contador = k * ((parOrdenado[2]/100)*10); // Pegar a escala correta do XY // O Ultimo valor � a porcentagem que vai ser aplicada no espa�o
                             double[] par = new double[3];
                             par[0] = parOrdenado[0] + (parOrdenado[0]/10);
                             par[1] = parOrdenado[1];
@@ -6121,7 +6129,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                             parOrdenado[1] = Double.parseDouble(Ylist.get(number).toString());
                             parOrdenadoX[0] = Double.parseDouble(Xlist.get(number).toString());
                             parOrdenadoX[1] = MinY; // Estava Funcionando Com o 0.0 no lugar do Min
-                            parOrdenadoY[0] = MinX; // Aqui também tava o 0.0
+                            parOrdenadoY[0] = MinX; // Aqui tamb�m tava o 0.0
                             parOrdenadoY[1] = Double.parseDouble(Ylist.get(number).toString());
 //                            draw.drawText("" + Xlist.get(number).toString(), parOrdenado);
                             draw.drawCoordinate(parOrdenado);
@@ -6150,7 +6158,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         
     }
 
-    public void Quadrant1() throws IOException, NumberFormatException, GrammarException {
+    public void Quadrant1() throws IOException, NumberFormatException, GrammarException, AWTException {
         double sx;
         double sxi = 0;
         double sy;  // fim do quadrante y
@@ -6161,24 +6169,6 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         
         
         if (IsPlot3D) {
-//            if (Main.att.AttTypes().get(indexX).equals("STRING")) {
-//                sx = Interface.plot3D.getAxis(0).getStringMap().size() - 1;
-//            } else {
-//                sx = GetMinMaxValueX()[1];
-//                sxi = GetMinMaxValueX()[0];
-//            }
-//            if (Main.att.AttTypes().get(indexY).equals("STRING")) {
-//                sy = Interface.plot3D.getAxis(1).getStringMap().size() - 1;
-//            } else {
-//                sy = GetMinMaxValueY()[1];
-//                syi = GetMinMaxValueY()[0];
-//            }
-//            if (Main.att.AttTypes().get(indexZ).equals("STRING")) {
-//                sz = Interface.plot3D.getAxis(2).getStringMap().size() - 1;
-//            } else {
-//                sz = GetMinMaxValueZ()[1];
-//                szi = GetMinMaxValueZ()[0];
-//            }
             
                 if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     sxi = Collections.min(Interface.plot3D.getAxis(0).getStringMap().values());
@@ -6198,7 +6188,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -6233,7 +6223,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             
             
                 double[] label1 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; //Calcula o limite inicial de cada quadrante + seu limite final dividido por 2 para assim chegar na coordenada correta.
-                double[] label2 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; // sz e sy estão em lugares trocados devido sua ordem também está trocada na hora de colocar os pontos no objeto XYZ(devido a limitações do Jmathplot o y e o z são trocados.
+                double[] label2 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2}; // sz e sy est�o em lugares trocados devido sua ordem tamb�m est� trocada na hora de colocar os pontos no objeto XYZ(devido a limita��es do Jmathplot o y e o z s�o trocados.
                 double[] label3 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};// O Y e o Z controlam respectivamente altura e profundidade e o X a largura.
                 double[] label4 = new double[]{(sxi + ((sx - sxi) / 2 + sxi)) / 2, (szi + ((sz - szi) / 2 + szi)) / 2, (syi + ((sy - syi) / 2 + syi)) / 2};
                 double[] label5 = new double[]{(sx + ((sx - sxi) / 2 + sxi)) / 2, (sz + ((sz - szi) / 2 + szi)) / 2, (sy + ((sy - syi) / 2 + syi)) / 2};
@@ -6246,7 +6236,6 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                 sxi = Collections.min(Interface.plot2D.getAxis(0).getStringMap().values());
                 sx = Collections.max(Interface.plot2D.getAxis(0).getStringMap().values());
-//            sx = Interface.plot2D.getAxis(0).getStringMap().size()-1; 
             } else {
                 sx = GetMinMaxValueX()[1];
                 sxi = GetMinMaxValueX()[0];
@@ -6254,26 +6243,15 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             if (Main.att.AttTypes().get(indexY).equals("STRING")) {
                 syi = Collections.min(Interface.plot2D.getAxis(1).getStringMap().values());
                 sy = Collections.max(Interface.plot2D.getAxis(1).getStringMap().values());
-//            sy = Interface.plot2D.getAxis(1).getStringMap().size()-1; 
             } else {
                 sy = GetMinMaxValueY()[1];
                 syi = GetMinMaxValueY()[0];
             }
 
-            ////        if (FirstBlood == 0) {
-//            System.out.println("GGGGGGGGGGGGGGGGGGGGGG");
             QLX = sxi;
             QHX = (sx - sxi) / 2 + sxi;
             QLY = (sy - syi) / 2 + syi;
             QHY = sy;
-//            FirstBlood++;
-//        }else{
-//            System.out.println("fipsfudhgasjvpa");
-//            QLX = sxi;
-//            QHX = QHX/2;
-//            QLY = (QHY - QLY)/2 + QLY;
-//            QHY = sy;
-//        }
 
             FiltrarXDSD.clear();
             FiltrarYDSD.clear();
@@ -6289,46 +6267,136 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             FiltrarYDSD.add(QHY);
 
         }
-        System.out.println("sxi hghfgdhfdgh" + sxi);
-        System.out.println("sx dfghfdghfgh" + sx);
-        System.out.println("syi fdghfgdhdfhgf " + syi);
-        System.out.println("sy dfghfhgdgfhd " + sy);
-
+        draw.canvas.allowEdit = true;
+        
+//        int PX = 156;
+//        int PY = 206;
+//        int RX = 348;
+//        int RY = 390;
         AllAxisChecked();
-        IQuad++;
-////        Map<Double, String> XHashMap = new HashMap<>();
-////        for(Map.Entry<String, Double> entry : Interface.plot2D.getAxis(0).getStringMap().entrySet()){
-////            XHashMap.put(entry.getValue(), entry.getKey());
-////        }
-////        Map<Double, String> YHashMap = new HashMap<>();
-////        for(Map.Entry<String, Double> entry : Interface.plot2D.getAxis(1).getStringMap().entrySet()){
-////            YHashMap.put(entry.getValue(), entry.getKey());
-////        }
-////        String XYs2 = new String();   
-//        double[] XYp2 = new double[2];   
+
+
+//((AWTDrawer) draw).projection.initBaseCoordsProjection(true);
+// draw.canvas.setActionMode(1);
+//        int[] a = {(int)QLX,(int)QLY}; 
+//        int[] a = {(int)0,(int)0}; 
+//        int[] a = {(int)(0 - getWidth() / 3),(int)(0 - getHeight() / 3)}; 
+//        int[] a = {((int)QHX - (int)QLX)/3,((int)QHY - (int)QLY)/3}; 
+//        int[] a1 = {(int)(QHX - draw.canvas.getWidth()/3),(int)(QHY - draw.canvas.getHeight()/3)}; 
+//        int[] a2 = {(int)(QHX - draw.canvas.getWidth()/1.333),(int)(QHY - draw.canvas.getHeight()/1.333)}; 
+//        double[] c = {QHX - QLX,QHY - QLY}; 
+//        int[] d = {-50,-50}; 
+//       double[] b = {QHX,QHY}; 
+//        double[] b = {QLX/draw.canvas.getWidth(),QLY/draw.canvas.getHeight()}; 
+//        double[] b1 = {1.5,1.5}; 
+//        double[] b2 = {0.666,0.666}; 
+//        int[] originF = {(int)FastMath.min(PX, RX), (int)FastMath.min(PY, RY)};
+//        int[] origin = {(int)FastMath.min(QLX, QHX), (int)FastMath.min(QLY, QHY)};
+//        double[] ratio = {FastMath.abs((double) (QHX - QLX) / (double) draw.canvas.getWidth()),
+//                          FastMath.abs((double) (QHY - QLY) / (double) draw.canvas.getHeight())};
+//        double[] ratio = {FastMath.abs((double) (QHX - QLX) / (double) QHX*2),
+//                          FastMath.abs((double) (QHY - QLY) / (double) QHY)};
+//        double[] ratioF = {FastMath.abs((double) (RX - PX) / (double) draw.canvas.getWidth()),
+//                          FastMath.abs((double) (RY - PY) / (double) draw.canvas.getHeight())};
+//        System.out.println("QLX " +QLX + " QHX " +QHX);
+//        System.out.println("QLY " +QLY + " QHY " +QHY);
+//        System.out.println("W " + draw.canvas.getWidth() + " H " + draw.canvas.getHeight());
+//        System.out.println("O1 " + originF[0] + " o2 " + originF[1]);
+//        System.out.println("r1 " + ratioF[0] + " r2 " + ratioF[1]);
+
+
+//        int[] origin = {FastMath.min(mouseClick[0], mouseCurent[0]), FastMath.min(mouseClick[1], mouseCurent[1])};
+//                    double[] ratio = {FastMath.abs((double) (mouseCurent[0] - mouseClick[0]) / (double) getWidth()),
+//                                      FastMath.abs((double) (mouseCurent[1] - mouseClick[1]) / (double) getHeight())
+//                    };
+                    
+                    
+                    
 //        draw = new AWTDrawer2D(Interface.plot2D.plotCanvas);
-//        draw.initGraphics((Graphics2D) Interface.plot2D.plotCanvas.getGraphics());
-//        draw.canvas = Interface.plot2D.plotCanvas;
-//        draw.canvas.initDrawer();
-//        if (marcador>=0 && marcador < draw.canvas.getPlot(PlotNumber).getData().length) {    
-//        XYp2[0] = draw.canvas.getPlot(PlotNumber).getData()[marcador][0];
-//        XYp2[1] = draw.canvas.getPlot(PlotNumber).getData()[marcador][1];
-////        XYs2 = XHashMap.get(XYp2[0]);
-////        XYs2 += "\n"+YHashMap.get(XYp2[1]);
-//        Interface.plot2D.plotCanvas.allowNote = true;   
-//        Interface.plot2D.plotCanvas.allowNoteCoord = true;  
-////        draw.drawText(Array.cat(reverseMapedData(XYp2)), XYp2);
-////        draw.drawText(XYs2,XYp2);
-////        Interface.plot2D.getPlot(PlotNumber).note(draw);
-//        Interface.plot2D.getPlot(PlotNumber).noteCoord(draw, XYp2);
-//        marcador++;
-//        }else 
-//            marcador = 0;
+//                draw.initGraphics((Graphics2D) Interface.plot2D.plotCanvas.getGraphics());
+//                draw.canvas = Interface.plot2D.plotCanvas;
+//                draw.canvas.initDrawer();
+//                draw.resetBaseProjection();
+       
+//       draw.translate(10,10000);
+//       ((AWTDrawer) draw).projection.translate(a);
         
-//           Interface.BtnsDetails();
-//           Main.Interface.setContentPane(((IMATVI.Interface) Main.Interface).PainelIFC());     
+//draw.resetBaseProjection();
+//        draw.translate(a);
+        
+//        draw.canvas.ActionMode = 0;
+//        draw.drawText("LSF", c);
+//        draw.translate(origin);
+//((AWTDrawer) draw).projection.translate(origin);
+
+//                int[] originFF = new int[]{(int) (400 -  plot2D.plotCanvas.getWidth() / 3/* (2*factor) */),
+//                                   (int) (406 -  plot2D.plotCanvas.getHeight() / 3/* (2*factor) */)};
+//                double[] ratioFF = new double[]{0.666/* 1/factor, 1/factor */, 0.666};
+//                draw.dilate(originFF, ratioFF);
                 
-        
+//                plot2D.plotCanvas.repaint();
+                
+//                int[] originFFF = new int[]{(int) (400 -  plot2D.plotCanvas.getWidth() / 1.333/* (2/factor) */),
+//                                   (int) (406 -  plot2D.plotCanvas.getWidth() / 1.333/* (2/factor) */)
+//                };
+//                double[] ratioFFF = new double[]{1.5, 1.5 /* factor, factor */};
+                
+//                plot2D.plotCanvas.repaint();
+
+//                draw.dilate(originFFF, ratioFFF);
+//                plot2D.plotCanvas.ActionMode = 0;
+//                draw.translate(RX - PX, RY - PY);
+//                int[] l = {RX - PX, RY - PY};
+//                ((AWTDrawer) draw).projection.translate(l);
+//                System.out.println("draw.canvas.base.dimension " +draw.canvas.base.dimension);
+                
+//                int[] originFF = new int[]{156,206};
+//                double[] ratioFF = new double[]{0.26/* 1/factor, 1/factor */, 0.19};
+                
+//                draw.dilate(originFF, ratioFF);
+            
+//            plot2D.plotCanvas.ActionMode = 1;
+//
+//            Robot robot;
+//
+//            try {
+//                robot = new Robot();
+//                robot.mouseMove(400, 406);
+//                robot.mousePress(InputEvent.BUTTON1_MASK);
+//                robot.mouseMove(500, 406);
+//                robot.mouseRelease(InputEvent.BUTTON1_MASK);
+////                robot.mouseWheel(1);
+////                robot.mouseWheel(-1);
+//            } catch (AWTException ex) {
+//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            
+//                origin = new int[]{(int) (400 - plot2D.plotCanvas.getWidth() / 1.333/* (2/factor) */),
+//                                   (int) (406 - plot2D.plotCanvas.getHeight() / 1.333/* (2/factor) */)
+//                };
+//                ratio = new double[]{1.5, 1.5 /* factor, factor */};
+//                draw.dilate(origin, ratio);
+//                
+//                
+//                int[] l = new int[]{500 - 400, 506 - 406};
+//                                  ((AWTDrawer) draw).projection.translate(l);
+//                                 plot2D.plotCanvas.ActionMode = 1;
+//                draw.translate(500 - 400, 506 - 406);
+
+//                plot2D.plotCanvas.getGrid().resetBase();
+//                plot2D.plotCanvas.repaint(); 
+            
+//((AWTDrawer) draw).projection.dilate(originFFF,ratioFFF);
+//draw.dilate(originF, ratioF);
+// draw.resetBaseProjection();
+
+////plot2D.plotCanvas.ActionMode = 1;
+//int[] originFF = new int[]{400,500};
+//((Projection2D) ((AWTDrawer2D) draw).projection).translate(originFF);
+
+// draw.canvas.repaint();
+    
+       IQuad++;
     }
 
     public void EstadoInicial() throws IOException, NumberFormatException, GrammarException {
@@ -6341,7 +6409,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
             Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelIFC());
             (new ThreadDsd()).start();
         }
-        //Checa quando está no zoom ou Mover ou Girar  
+        //Checa quando est� no zoom ou Mover ou Girar  
         if (BtnListener.EscalaEI) {
             if (IsPlot3D) {
                 BtnListener.EscalaValor = 1.3;
@@ -6541,7 +6609,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -6667,7 +6735,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
 //                syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
 //                sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
 //            } else {
-//                sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+//                sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
 //                syi = GetMinMaxValueY()[0];
 //            }
 //            
@@ -6691,7 +6759,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -6829,7 +6897,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -6944,7 +7012,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -7030,7 +7098,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -7116,7 +7184,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -7202,7 +7270,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     syi = Collections.min(Interface.plot3D.getAxis(2).getStringMap().values());
                     sy = Collections.max(Interface.plot3D.getAxis(2).getStringMap().values());
                 } else {
-                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados é com Y e o Z invertidos por isso tenho que fazer esta troca
+                    sy = GetMinMaxValueY()[1]; // O Z recebe o Y pois a forma como o JmathPlot organiza os dados � com Y e o Z invertidos por isso tenho que fazer esta troca
                     syi = GetMinMaxValueY()[0];
                 }
 
@@ -7830,33 +7898,32 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
 ////    draw.drawCoordinate(XYp2);
     }
 
-    public void Scenario1() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cenários que vão ser avaliados nos testes
-        IsPlot3D = true;
-//    IsPlot3D = false;
-    PlotBaseX(0, "Marca");
-//    PlotBaseX(10, "Peso");
-//    PlotBaseX(14, "Valor$");
-    PlotBaseY(14, "Valor$");
-//    PlotBaseX(1, "Gas");
-//    PlotBaseX(6, "Tração");
-//    PlotBaseY(6, "Tração");
-//        PlotBaseY(13, "RPM");
-//    PlotBaseY(15, "Ano");
-//    PlotBaseY(4, "Tipo");
-//    PlotBaseZ(14, "Valor$");
-//    PlotBaseZ(6, "Tração");
-//    PlotBaseZ(1, "Gas");
-    PlotBaseZ(15, "Ano");
-//    PlotForma(6, "Tração");
-        PlotCor(11, "Cilindros");
-   
-//    PlotForma(6, "Tração");
-    PlotForma(5, "Tipo");
-     PlotTamanho(6, "Tração");
+    public void Scenario1() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
+//        IsPlot3D = true;
+//    PlotBaseX(0, "Marca");
+//    PlotBaseY(14, "Valor$");
+//    PlotCor(11, "Cilindros");
+////    PlotForma(6, "Tra��o");
+//    PlotForma(5, "Tipo");
+//     PlotTamanho(6, "Tra��o");
 //
 //                     
 //    AllAxisChecked();
 //    Interface.menu_Voltar.doClick();
+//    PlotBaseX(10, "Peso");
+//    PlotBaseX(14, "Valor$");
+//    PlotBaseX(1, "Gas");
+//    PlotBaseX(6, "Tra��o");
+//    PlotBaseY(6, "Tra��o");
+//        PlotBaseY(13, "RPM");
+//    PlotBaseY(15, "Ano");
+//    PlotBaseY(4, "Tipo");
+//    PlotBaseZ(14, "Valor$");
+//    PlotBaseZ(6, "Tra��o");
+//    PlotBaseZ(1, "Gas");
+//    PlotBaseZ(15, "Ano");
+//    PlotForma(6, "Tra��o");
+//    IsPlot3D = false;
 
 //PlotBaseZ(2, "Turbo");
 //IMATVI.Interface.infoVisModule.PlotBaseX(0, "Marca");
@@ -7871,18 +7938,18 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
 //IMATVI.Interface.BtnMover();
 //Interface.setContentPane(((IMATVI.Interface) Interface).PainelInteragir());
     }
-    public void Scenario2() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cenários que vão ser avaliados nos testes
-//Este cenário representará Detalhes Sobre Demanda 3D
+    public void Scenario2() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
+//Este cen�rio representar� Detalhes Sobre Demanda 3D
         IsPlot3D = true;
    
     }
-    public void Scenario3() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cenários que vão ser avaliados nos testes
-//Este cenário representará Navegação 2D
+    public void Scenario3() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
+//Este cen�rio representar� Navega��o 2D
         IsPlot3D = false;
    
     }
-    public void Scenario4() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cenários que vão ser avaliados nos testes
-//Este cenário representará Navegação 3D
+    public void Scenario4() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
+//Este cen�rio representar� Navega��o 3D
         IsPlot3D = true;
    
     }

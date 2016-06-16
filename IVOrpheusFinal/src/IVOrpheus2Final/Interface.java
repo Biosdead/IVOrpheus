@@ -68,7 +68,7 @@ public class Interface extends JFrame {
 
 	static JMenuBar barra_Botton;
 	
-	//plot3D 3D
+	//plot3D e 2D
 	public static Plot3DPanel plot3D;
 	public static Plot2DPanel plot2D;
    	
@@ -123,7 +123,7 @@ public class Interface extends JFrame {
         plot3D.removePlotToolBar();    //Tirar a barra de ferramentas
         
         
-        setTitle("IVOrpheus 2.0"); // seta um título para a janela
+        setTitle("IVOrpheus 2.5"); // seta um título para a janela
    	
         //Inicializando o tamanho da tela
    	   WidthScreen = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(); //1280
@@ -137,9 +137,10 @@ public class Interface extends JFrame {
 //Seta o módulo de visualização disposto na área de visualização
           if (infoVisModule.IsPlot3D) {
              setContentPane(plot3D);
-        }else
+        }else{
               setContentPane(plot2D);
-
+              plot2D.plotCanvas.ActionMode = 1; // Coloca o action mode para translation
+          }
           // instancia os botões e atribuindo os seus nomes
           Confirmar = new JButton("Confirmar");
           Cancelar = new JButton("Cancelar");
@@ -400,6 +401,9 @@ public class Interface extends JFrame {
                 Girar.setFont(f);
                 Escala.setFont(f);
                 
+                plot2D.plotCanvas.addMouseListener(new BtnListener());
+                plot2D.plotCanvas.addMouseMotionListener(new BtnListener());
+                plot2D.plotCanvas.addMouseWheelListener(new BtnListener());
                 
     }
 	

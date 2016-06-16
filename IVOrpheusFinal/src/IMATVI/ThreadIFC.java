@@ -18,20 +18,10 @@ import javax.speech.recognition.GrammarException;
 public class ThreadIFC extends Thread {
      public void run() {
          
-//                    Interface.menu_Voltar.doClick();
                     
          try {
-//        	 Main.Interface.setContentPane(Interface.plot3D);
-//        	 Main.Interface.add(BorderLayout.NORTH, Interface.barra_menu);
              Interface.BtnsIFC();
-             
-            /* if (Interface.painelIFC.getParent() == null) {
-                 desktopIFC.add(painelIFC);
-         		        desktopIFC.setDoubleBuffered(true);
-                         desktopIFC.setComponentZOrder(painelIFC,desktopIFC.getComponentCount()-2);
-                         painelIFC.putClientProperty("dragMode", "fixed");
-         		}
-             */
+
              if (Interface.painelIFC.getParent() == null) {
             	 Interface.desktopIFC.add(Interface.painelIFC);
             	 Interface.desktopIFC.setDoubleBuffered(true);

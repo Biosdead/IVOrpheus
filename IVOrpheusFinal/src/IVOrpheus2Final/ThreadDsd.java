@@ -20,8 +20,6 @@ public class ThreadDsd extends Thread {
     private boolean firstTime = true;
     public void run() {
         
-         System.out.println("VVVVVVV2222 " + Vis3D.QtdPontosVisuais);
-        
         if (Vis3D.IsPlot3D) {
             Interface.plot3D.plotCanvas.invalidate();
             Interface.plot3D.plotCanvas.repaint();
@@ -96,19 +94,6 @@ public class ThreadDsd extends Thread {
                 }
                }
             }
-        
-                
-//        try {
-//            Interface.LimparPainel(Interface.desktopIFC);
-//            Interface.BtnsDetails();
-//            Main.Interface.setContentPane(((IMATVI.Interface) Main.Interface).PainelIFC());
-//        } catch (GrammarException ex) {
-//            Logger.getLogger(ThreadDsd.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (EngineStateError ex) {
-//            Logger.getLogger(ThreadDsd.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(ThreadDsd.class.getName()).log(Level.SEVERE, null, ex);
-//        }
        
   }
 }

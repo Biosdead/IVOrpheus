@@ -27,6 +27,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import java.security.AccessControlException;
 import java.util.ArrayList;
@@ -45,7 +50,7 @@ import org.math.plot.components.LegendPanel.Legend;
 import org.math.plot.plots.Plot;
 import org.math.plot.utils.Array;
 
-public class BtnListener implements ActionListener, MenuListener {
+public class BtnListener implements ActionListener, MenuListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
     public static JFrame Inter = Main.Interface; // Adicionar e suas dependencias no IVOrpheus
     public static boolean MoverGirar = false, Redimensionar = false, ConfigurarBool = false, FiltrarBool = false, Inicio = false, Fim = false,
@@ -56,6 +61,7 @@ public class BtnListener implements ActionListener, MenuListener {
     public static int EixoIndice;
     public static JTextField textField;
     public static Vis3D infoVisModule = new Vis3D();
+    public static int[] MouseCurrent = new int[2];
 
     @Override
     public void actionPerformed(ActionEvent acao) {
@@ -423,19 +429,19 @@ public class BtnListener implements ActionListener, MenuListener {
             FiltrarCor = false;
             
 //            Ativa e desativa o cenário
-//            try {
-//                infoVisModule.Scenario1();
-//            } catch (NumberFormatException ex) {
-//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (IOException ex) {
-//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (GrammarException ex) {
-//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (PropertyVetoException ex) {
-//                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+            try {
+                infoVisModule.Scenario1();
+            } catch (NumberFormatException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (GrammarException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             
             
@@ -678,7 +684,7 @@ public class BtnListener implements ActionListener, MenuListener {
 //                Interface.BtnsDetails();
 //                Main.Interface.setContentPane(((IMATVI.Interface) Main.Interface).PainelIFC());
 
-                (new ThreadDsd()).start();
+//                (new ThreadDsd()).start();
                 infoVisModule.Quadrant1();
 
             } catch (IOException ex) {
@@ -686,6 +692,8 @@ public class BtnListener implements ActionListener, MenuListener {
             } catch (NumberFormatException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
             } catch (GrammarException ex) {
+                Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (AWTException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -980,7 +988,7 @@ public class BtnListener implements ActionListener, MenuListener {
             GirarEI = true;
 
             try {
-				Reconhecedor.GramMG();
+//				Reconhecedor.GramMG();
                 Interface.BtnGirar();
                 Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Inter).PainelInteragir());
                 Interface.painelInteragir.setSelected(true);
@@ -1271,7 +1279,7 @@ public class BtnListener implements ActionListener, MenuListener {
                         Interface.FimFixoLbl.setVisible(false);
                         Interface.FimLbl.setVisible(false);
                         EixoIndice = 0;
-                            Reconhecedor.GramFiltrar();
+//                            Reconhecedor.GramFiltrar();
                         Interface.LimparPainel(Interface.desktopCarregar);
                         Interface.BtnFiltrarCategorico(Main.att.GetUniqueValues(infoVisModule.indexX));
                         Main.Interface.setContentPane(((IVOrpheus2Final.Interface) Main.Interface).PainelCarregar());
@@ -1762,5 +1770,53 @@ public class BtnListener implements ActionListener, MenuListener {
 
     @Override
     public void menuCanceled(MenuEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+        System.out.println("CX "  + e.getX() + " CXS " + e.getXOnScreen());
+        System.out.println("CY "  + e.getY() + " CYS " + e.getYOnScreen());
+//        MouseCurrent[0] = e.getX();
+//        MouseCurrent[1] = e.getY();
+        e.consume();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+        System.out.println("PX "  + e.getX() + " PXS " + e.getXOnScreen());
+        System.out.println("PY "  + e.getY() + " PYS " + e.getYOnScreen());
+//        MouseCurrent[0] = e.getX();
+//        MouseCurrent[1] = e.getY();
+        e.consume();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+        System.out.println("RX "  + e.getX() + " RXS " + e.getXOnScreen());
+        System.out.println("RY "  + e.getY() + " RYS " + e.getYOnScreen());
+        e.consume();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
     }
 }
