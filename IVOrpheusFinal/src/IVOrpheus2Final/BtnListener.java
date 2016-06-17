@@ -106,8 +106,8 @@ public class BtnListener implements ActionListener, MenuListener, MouseListener,
                 for (int i = 0; i <= Interface.atributos.length - 1; i++) {
 
 //                    if (Interface.atributos[i].isSelected()) {
-//                    if (Interface.atributos[i] != null && Interface.atributos[i].isSelected()) {
-                    if (Interface.atributos[i].isSelected()) {
+                    if (Interface.atributos[i] != null && Interface.atributos[i].isSelected()) {
+//                    if (Interface.atributos[i].isSelected()) {
                         try {
                             infoVisModule.PlotCor(Interface.IndicesOriginais[i], Interface.atributos[i].getText().substring(Interface.atributos[i].getText().indexOf('-') + 1));
 
@@ -136,8 +136,8 @@ public class BtnListener implements ActionListener, MenuListener, MouseListener,
 //                    System.out.println("Att = " + Interface.atributos[i] + " IO = " + Interface.IndicesOriginais[i]);
 //                    System.out.println(Interface.atributos.length);
                     try {
-//                        if (Interface.atributos[i] != null && Interface.atributos[i].isSelected() && (Main.att.GetUniqueValues(i).length <= limiarForma)) {
-                        if (Interface.atributos[i].isSelected() && (Main.att.GetUniqueValues(i).length <= limiarForma)) {
+                        if (Interface.atributos[i] != null && Interface.atributos[i].isSelected() && (Main.att.GetUniqueValues(i).length <= limiarForma)) {
+//                        if (Interface.atributos[i].isSelected() && (Main.att.GetUniqueValues(i).length <= limiarForma)) {
 
                             infoVisModule.PlotForma(Interface.IndicesOriginais[i], Interface.atributos[i].getText().substring(Interface.atributos[i].getText().indexOf('-') + 1));
                         }
@@ -164,8 +164,8 @@ public class BtnListener implements ActionListener, MenuListener, MouseListener,
                 infoVisModule.indexTamanho = -1;
                 for (int i = 0; i < Interface.atributos.length; i++) {
 
-//                    if (Interface.atributos[i] != null && Interface.atributos[i].isSelected()) {
-                    if (Interface.atributos[i].isSelected()) {
+                    if (Interface.atributos[i] != null && Interface.atributos[i].isSelected()) {
+//                    if (Interface.atributos[i].isSelected()) {
                         try {
                             infoVisModule.PlotTamanho(Interface.IndicesOriginais[i], Interface.atributos[i].getText().substring(Interface.atributos[i].getText().indexOf('-') + 1));
                         } catch (NumberFormatException ex) {
@@ -294,7 +294,7 @@ public class BtnListener implements ActionListener, MenuListener, MouseListener,
                 } else {
 
                     for (int i = 0; i < Interface.Categoricos.length; i++) {
-                        if (Interface.Categoricos[i].isSelected()) {
+                        if (!Interface.Categoricos[i].isSelected()) {
 
                             if (EixoXTradutor) {   //Fazer O Eixo Reconhecer
 //                                System.out.println("DENTRO DO X Filtrar");
@@ -430,7 +430,7 @@ public class BtnListener implements ActionListener, MenuListener, MouseListener,
             
 //            Ativa e desativa o cenário
             try {
-                infoVisModule.Scenario1();
+                infoVisModule.Scenario2();
             } catch (NumberFormatException ex) {
                 Logger.getLogger(BtnListener.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {

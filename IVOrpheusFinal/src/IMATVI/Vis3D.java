@@ -7852,7 +7852,7 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
     	IsPlot3D = true;
         PlotBaseX(0, "Marca");
         PlotBaseY(14, "Valor$");
-        PlotBaseZ(15, "Ano");
+//        PlotBaseZ(15, "Ano");
         PlotCor(11, "Cilindros");
         PlotForma(5, "Tipo");
         PlotTamanho(6, "Tração");

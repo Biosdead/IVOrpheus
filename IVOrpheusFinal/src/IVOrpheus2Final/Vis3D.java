@@ -229,7 +229,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
 
         //Nome Dos tamanhos para os Filtros
         NomeDosTamanhos[0] = "Pequeno";
-        NomeDosTamanhos[1] = "M�dio";
+        NomeDosTamanhos[1] = "Médio";
         NomeDosTamanhos[2] = "Grande";
 
         //Nome Das formas para os Filtros
@@ -2728,7 +2728,8 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
         }
 
 
-        if (FiltrarYCategorico.isEmpty()) {
+//        if (FiltrarYCategorico.isEmpty()) {
+        if (!FiltroNumerico) {
 
             if (!Main.att.AttTypes().get(y).equals("FLOAT")) {
                 if ((BtnListener.EixoIndice == 1) && (BtnListener.FiltrarBool)) { // Falta verificar se e numerico ou categorico
@@ -5973,6 +5974,22 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
     
     public void DesenhandoCoordenadas(int number) throws IOException{
         double contador = 0;
+        // Isso aqui esta sendo utilizado apenas para mostrar o teste com o 2d pois sua formatacao esta errada.
+        if(Vis3D.IsPlot3D){
+        draw = new AWTDrawer2D(Interface.plot3D.plotCanvas);
+                draw.initGraphics((Graphics2D) Interface.plot3D.plotCanvas.getGraphics());
+                draw.canvas = Interface.plot3D.plotCanvas;
+                draw.canvas.initDrawer();
+        }else{
+        draw = new AWTDrawer2D(Interface.plot2D.plotCanvas);
+                draw.initGraphics((Graphics2D) Interface.plot2D.plotCanvas.getGraphics());
+                draw.canvas = Interface.plot2D.plotCanvas;
+                draw.canvas.initDrawer();
+        }
+        
+        draw.setFont(new Font(draw.getFont().getFontName(), Font.PLAIN, 48));        
+        // Isso foi utilizado para iniciar o draw para desenhar as coordenadas nos pontos 3d
+                
         draw.setColor(Color.RED);
         if (IsPlot3D) {
 
@@ -6002,28 +6019,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 } else {
                     Zlist.addAll(zl1Coord);
                 }
-//                if (Main.att.AttTypes().get(indexX).equals("STRING")) {
-//                    for (int i = 0; i <= xl1.size() - 1; i++) {
-//                        Xlist.add(Interface.plot3D.getAxis(0).getStringMap().get(xl1.get(i)));
-//                    }
-//                } else {
-//                    Xlist.addAll(xl1);
-//                }
-//                if (Main.att.AttTypes().get(indexY).equals("STRING")) {
-//                    for (int i = 0; i <= yl1.size() - 1; i++) {
-//                        Ylist.add(Interface.plot3D.getAxis(2).getStringMap().get(yl1.get(i)));
-//                    }
-//                } else {
-//                    Ylist.addAll(yl1);
-//
-//                }
-//                if (Main.att.AttTypes().get(indexZ).equals("STRING")) {
-//                    for (int i = 0; i <= zl1.size() - 1; i++) {
-//                        Zlist.add(Interface.plot3D.getAxis(1).getStringMap().get(zl1.get(i)));
-//                    }
-//                } else {
-//                    Zlist.addAll(zl1);
-//                }
+
                 double[] parOrdenado = new double[3];
                 double[] parOrdenadoX = new double[3];
                 double[] parOrdenadoY = new double[3];
@@ -6032,6 +6028,7 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                 double MinX = 0.0;
                 double MinY = 0.0;
                 double MinZ = 0.0;
+                
                 if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     MinX = Collections.min(Interface.plot3D.getAxis(0).getStringMap().values());
                 } else {
@@ -6048,13 +6045,6 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     MinY = GetMinMaxValueY()[0];
                 }
                 
-                
-//                    if (!xl1.get(number).equals(null) || !xl1.get(number).equals("null")) {
-//                            parOrdenado[0] = Double.parseDouble(Xlist.get(number).toString());
-//                            parOrdenado[1] = Double.parseDouble(Ylist.get(number).toString());
-//                            parOrdenado[2] = Double.parseDouble(Zlist.get(number).toString());
-//                            draw.drawText("" + Xlist.get(number).toString(), parOrdenado);
-//                    }
                     if (!xl1Coord.get(number).equals(null) || !xl1Coord.get(number).equals("null") || xl1Coord.get(number) != null) {
                             parOrdenado[0] = Double.parseDouble(Xlist.get(number).toString());
                             parOrdenado[1] = Double.parseDouble(Zlist.get(number).toString());
@@ -6103,21 +6093,20 @@ public class Vis3D extends Plot3DCanvas { //InfoVisModule future
                     }
                 } else {
                     Ylist.addAll(yl1Coord);
-                    
                 }
                 double[] parOrdenado = new double[2];
                 double[] parOrdenadoX = new double[2];
                 double[] parOrdenadoY = new double[2];
                 
-                
                 double MinX = 0.0;
                 double MinY = 0.0;
+                
                 if (Main.att.AttTypes().get(indexX).equals("STRING")) {
                     MinX = Collections.min(Interface.plot2D.getAxis(0).getStringMap().values());
                 } else {
                     MinX = GetMinMaxValueX()[0];
                 }
-                if (Main.att.AttTypes().get(indexZ).equals("STRING")) {
+                if (Main.att.AttTypes().get(indexY).equals("STRING")) {
                     MinY = Collections.min(Interface.plot2D.getAxis(1).getStringMap().values());
                 } else {
                     MinY = GetMinMaxValueY()[0];
@@ -7899,53 +7888,32 @@ if (Main.att.AttTypes().get(indexX).equals("STRING")) {
     }
 
     public void Scenario1() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
-//        IsPlot3D = true;
-//    PlotBaseX(0, "Marca");
-//    PlotBaseY(14, "Valor$");
-//    PlotCor(11, "Cilindros");
-////    PlotForma(6, "Tra��o");
-//    PlotForma(5, "Tipo");
-//     PlotTamanho(6, "Tra��o");
-//
-//                     
-//    AllAxisChecked();
-//    Interface.menu_Voltar.doClick();
-//    PlotBaseX(10, "Peso");
-//    PlotBaseX(14, "Valor$");
-//    PlotBaseX(1, "Gas");
-//    PlotBaseX(6, "Tra��o");
-//    PlotBaseY(6, "Tra��o");
-//        PlotBaseY(13, "RPM");
-//    PlotBaseY(15, "Ano");
-//    PlotBaseY(4, "Tipo");
-//    PlotBaseZ(14, "Valor$");
-//    PlotBaseZ(6, "Tra��o");
-//    PlotBaseZ(1, "Gas");
-//    PlotBaseZ(15, "Ano");
-//    PlotForma(6, "Tra��o");
-//    IsPlot3D = false;
+        IsPlot3D = false;
+    PlotBaseX(0, "Marca");
+    PlotBaseY(14, "Valor");
 
-//PlotBaseZ(2, "Turbo");
-//IMATVI.Interface.infoVisModule.PlotBaseX(0, "Marca");
-//IMATVI.Interface.infoVisModule.PlotBaseY(1, "TURBO");
-//IMATVI.Vis3D.PlotBaseX(0, "Marca");
-//IMATVI.Vis3D.PlotBaseY(1, "Combustivel");
-//IMATVI.Vis3D.PlotBaseZ(2, "Turbo");
-//IMATVI.Interface.Filtrar.setEnabled(true);
-//IMATVI.Interface.Cor.setEnabled(true);
-//IMATVI.Interface.Forma.setEnabled(true);
-//IMATVI.Interface.Tamanhi.setEnabled(true);
-//IMATVI.Interface.BtnMover();
-//Interface.setContentPane(((IMATVI.Interface) Interface).PainelInteragir());
     }
     public void Scenario2() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
 //Este cen�rio representar� Detalhes Sobre Demanda 3D
-        IsPlot3D = true;
+        IsPlot3D = false;
+    PlotBaseX(0, "Marca");
+    PlotBaseY(14, "Valor");
+    PlotCor(11, "Cilindros");
+    PlotForma(5, "Tipo");
+    PlotTamanho(6, "Tração");
    
     }
     public void Scenario3() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes
 //Este cen�rio representar� Navega��o 2D
         IsPlot3D = false;
+             IsPlot3D = false;
+    PlotBaseX(0, "Marca");
+    PlotBaseY(14, "Valor");
+    PlotBaseZ(15, "Ano");
+    PlotCor(11, "Cilindros");
+    PlotForma(5, "Tipo");
+    PlotTamanho(6, "Tração");
+    
    
     }
     public void Scenario4() throws NumberFormatException, FileNotFoundException, IOException, GrammarException, PropertyVetoException { //Colocar todos os cen�rios que v�o ser avaliados nos testes

@@ -109,7 +109,7 @@ public class Interface extends JFrame {
         
         //String para Explicar o Filtro Decimal
         private static String SVoz,LegendaForma,LegendaTamanho;
-   	public static JLabel LblVoz,LblLegendaForma,LblLegendaTamanho; 
+   	public static JLabel LblVoz,LblLegendaForma,LblLegendaTamanho, NomeOuIndice; 
         
         //Construtor
 	public Interface()
@@ -208,6 +208,8 @@ public class Interface extends JFrame {
           LblVoz = new JLabel();
           LblLegendaForma = new JLabel();
           LblLegendaTamanho = new JLabel();
+          NomeOuIndice = new JLabel();
+          
           
           //JTextField
           InicioLbl = new JTextField("Inicio");
@@ -439,6 +441,21 @@ public class Interface extends JFrame {
                 desktopCarregar.add(plot2D);
 		desktopCarregar.add(Confirmar);
 		desktopCarregar.add(Cancelar);
+                
+                
+                if(BtnListener.FiltrarBool && !Vis3D.FiltroNumerico){
+			NomeOuIndice.setText(" OBS(Índices) : Só falar os índices dos atributos");
+			NomeOuIndice.setSize((int)NomeOuIndice.getPreferredSize().getWidth(),(int)NomeOuIndice.getPreferredSize().getHeight());
+			NomeOuIndice.setLocation(ButtonX/2 ,ButtonY - ButtonH - 10);
+			desktopCarregar.add(NomeOuIndice);
+		}
+		if(BtnListener.ConfigurarBool){
+			NomeOuIndice.setText(" OBS(Nomes) : Só falar os nomes dos atributos");
+			NomeOuIndice.setSize((int)NomeOuIndice.getPreferredSize().getWidth(),(int)NomeOuIndice.getPreferredSize().getHeight());
+			NomeOuIndice.setLocation(ButtonX/2 ,ButtonY - ButtonH - 10);
+			desktopCarregar.add(NomeOuIndice);
+		}
+                
 //		desktopCarregar.add(Proximo);
 //		desktopCarregar.add(Anterior);
 		painelCarregar.setFocusable(true);
